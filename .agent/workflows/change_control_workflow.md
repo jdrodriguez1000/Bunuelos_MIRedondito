@@ -8,41 +8,61 @@ Este flujo asegura que cualquier desviación de las especificaciones originales 
 
 ## Pasos del Workflow
 
-### 1. Detección de Necesidad de Cambio
-- El Agente identifica que una tarea del `IMPL-PLAN` no puede cumplirse según la `SPEC` actual o el usuario solicita una modificación.
+### 1. Detección y Clasificación
+- El Agente identifica si el cambio solicitado es **Menor** o **Mayor** según las [Change Control Rules](../../.agent/rules/change_control_rules.md).
+- Si es Mayor, se procede con este flujo.
 
-### 2. Creación del Registro de Cambio (CR)
+### 2. Creación de la Solicitud de Cambio (CR)
 // turbo
-Genera una entrada en el log de control de cambios.
+Genera el documento formal en la ruta de control de cambios.
 ```powershell
-$PathChangeLog = ".agent/change_control/change_log.md"
-if (-not (Test-Path ".agent/change_control")) { New-Item -Path ".agent/change_control" -ItemType Directory }
+$PathCC = "docs/control_changes"
+if (-not (Test-Path $PathCC)) { New-Item -Path $PathCC -ItemType Directory }
 
-$Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-$ChangeEntry = @"
+$CR_ID = "CR_$(Get-Date -Format 'MM_dd_HHmm')"
+$PathCR = "$PathCC/$($CR_ID).md"
+
+$CR_Template = @"
+# Solicitud de Cambio (Change Request) - $($CR_ID)
+## Proyecto: Mi Redondito - Bunuelos SAS
+### [Título descriptivo del cambio]
+
+**Estado**: PENDIENTE
+**Fecha**: $(Get-Date -Format 'yyyy-MM-dd')
+**Autor**: Antigravity (AI Agent)
+
 ---
-### [CR-$(Get-Date -UFormat %Y%m%d%H%M%S)] - $($Timestamp)
-*   **Documento Afectado:** [Nombre del Documento]
-*   **Descripción del Cambio:** [Describir qué cambia]
-*   **Razón:** [Hallazgo técnico / Solicitud de usuario]
-*   **Estado:** PENDIENTE DE APROBACIÓN
+
+## 1. DESCRIPCIÓN DEL CAMBIO
+[Describir qué cambia y por qué. Referenciar IDs afectados ej. REQ-F01-01]
+
 ---
+
+## 2. IMPACTO EN ARTEFACTOS Y CÓDIGO
+| Artefacto | Versión | Ajuste |
+| :--- | :--- | :--- |
+| [Ej. project_charter.md] | [vX.X] | [Descripción] |
+
+---
+
+## 3. VALIDACIÓN Y CIERRE
+[Criterios para dar por cerrado el cambio]
+---
+**Autoridad de Configuración**: Change Manager PM (Antigravity)
 "@
 
-if (-not (Test-Path $PathChangeLog)) {
-    New-Item -Path $PathChangeLog -Value "# LOG DE CONTROL DE CAMBIOS`n`n" -ItemType File
-}
-Add-Content -Path $PathChangeLog -Value $ChangeEntry
+New-Item -Path $PathCR -Value $CR_Template -ItemType File
+Write-Host "CR creada en: $PathCR"
 ```
 
 ### 3. Solicitud de Aprobación
-- El Agente presenta la justificación técnica al usuario en el chat.
-- Se debe explicar el impacto en las métricas **[MET-XX]** u objetivos **[OBJ-XX]**.
+- El Agente presenta el impacto en el chat y solicita aprobación explícita de Triple S.
 
-### 4. Ejecución del Cambio
-- Una vez aprobado, se actualiza el documento afectado.
-- Se debe incrementar la versión en la metadata del documento (ej. v1.0.0 -> v1.1.0).
-- Se actualiza el estado en el `change_log.md` a **APROBADO**.
+### 4. Ejecución del Efecto Dominó
+- Actualizar el documento principal.
+- Actualizar todos los artefactos vinculados (Charter, REQ, SPEC, IMPL) en la misma sesión.
+- Incrementar versiones según el estándar (v1.0 -> v1.1).
 
 ### 5. Sincronización
-- Realizar commit en Git con el prefijo `fix:` o `refactor:` según corresponda.
+- Realizar commit con el ID de la CR en el mensaje.
+- Push a GitHub.

@@ -1,41 +1,30 @@
 # REGLAS DE CONTROL DE CAMBIOS - MI REDONDITO (CHANGE_CONTROL_RULES)
 
-## 1. Identificación y Control (Metadata)
+## 1. Clasificación de Cambios
+- **Cambio Menor**: Correcciones ortográficas, aclaraciones de redacción o ajustes que no alteran el alcance, tiempo o costo.
+    - *Acción*: Registrar en el Change Log del documento afectado. No requiere workflow extendido.
+- **Cambio Mayor**: Modificaciones en objetivos `[OBJ]`, métricas `[MET]`, requerimientos `[REQ]`, fechas del roadmap `[DEL]` o exclusiones `[EXC]`.
+    - *Acción*: Debe ejecutarse el `/change_control_workflow`.
 
-*   **Título del Documento:** REGLAS DE CONTROL DE CAMBIOS (Change Control Rules)
-*   **Versión:** v1.0.0
-*   **Estado:** Oficial / Aprobado
-*   **Fecha de Creación:** 2026-03-11
-*   **Trazabilidad:** Derivado del protocolo de inmutabilidad de Triple S.
-*   **Objetivo:** Garantizar que la base documental del proyecto (REQ, SPEC, IMPL) sea estable y que cualquier modificación sea justificada y trazable.
+## 2. Protocolo de Registro (Audit Trail)
+Cualquier cambio a un documento en estado **Approved** debe seguir estas reglas:
+1. **No Eliminar Historial**: No se borra contenido previo si este altera la lógica histórica. Se prefiere tachar o mover a una sección de "Obsoleto".
+2. **Entrada en Change Log**: Cada edición debe generar una fila en la tabla de Registro de Cambios con:
+    - `Fecha`: Formato YYYY-MM-DD.
+    - `ID Elemento`: El ID específico afectado (ej. [REQ-01]).
+    - `Descripción`: Explicación clara del porqué y qué cambió.
+    - `Autor`: Triple S.
+    - `Versión`: Nueva versión decimal (ej. de 1.0 a 1.1).
 
----
+## 3. Consistencia Documental (Efecto Dominó)
+Es responsabilidad del agente asegurar que si un cambio en el Project Charter afecta a un PRD, Plan de Implementación o Prueba Técnica, todos los archivos vinculados sean actualizados en la misma sesión.
 
-## 2. Inmutabilidad Documental
+## 4. Trazabilidad de Versiones
+- **Borradores**: v0.X
+- **Baselines Aprobados**: v1.0, v2.0, etc.
+- **Revisiones Post-Aprobación**: v1.1, v1.2, etc.
 
-*   **RC_CHG_001 (Estado Aprobado):** Una vez que un documento (ej. `SPEC-F01-01`) se marca como "Oficial / Aprobado", queda prohibida su edición directa sin un proceso de Control de Cambios.
-*   **RC_CHG_002 (Cero Borrado Histórico):** No se permite eliminar versiones anteriores de los requerimientos. Las evoluciones se deben registrar como nuevas versiones o adendas.
-
----
-
-## 3. El Proceso de Change Request (CR)
-
-*   **RC_CHG_003 (Justificación Obligatoria):** Todo cambio en una especificación técnica o requerimiento de negocio debe responder a:
-    *   **Origen**: ¿Quién solicita el cambio? (Usuario, Hallazgo Técnico, Error).
-    *   **Impacto**: ¿Cómo afecta al cronograma, presupuesto o precisión del modelo?
-    *   **Riesgo**: ¿Qué puede salir mal si se aplica el cambio?
-*   **RC_CHG_004 (Registro de Cambios):** Cada documento debe contar con una tabla de **Historial de Revisiones** en su sección de metadata.
-
----
-
-## 4. Flujo de Aprobación
-
-*   **RC_CHG_005 (Aprobación por el Usuario):** Los cambios que afecten el alcance del proyecto (Project Charter) deben ser aprobados explícitamente por el usuario en el chat antes de ser persistidos.
-*   **RC_CHG_006 (Alineación Agente):** El Agente debe auditar si un cambio en una SPEC rompe la trazabilidad con el REQ correspondiente antes de aplicar la modificación.
-
----
-
-## 5. Herramientas y Persistencia
-
-*   **RC_CHG_007 (Snapshot de Cambio):** Antes de un cambio mayor, se recomienda realizar un commit preventivo en Git.
-*   **RC_CHG_008 (Workflow de Cambio):** El uso del `/change_control_workflow` es obligatorio para modificaciones estructurales.
+## 5. Estructura de Documentación de Solicitudes (CR)
+Cada cambio mayor debe generar un documento en `docs/control_changes/` siguiendo el estándar:
+- **Título**: Solicitud de Cambio (Change Request) - CR_XX_XXX.
+- **Secciones**: Descripción del Cambio, Impacto en Artefactos y Código, Validación y Cierre.
