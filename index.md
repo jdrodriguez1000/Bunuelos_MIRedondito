@@ -42,14 +42,14 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
     *   Plan de Imp.: [[IMPL-F01-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f01_01_impl_plan.md)
     *   Capa Agente: [RULE](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/rules/f01_01_rules.md) | [SKILL](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/skills/f01_01_pm/SKILL.md) | [WORK](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/workflows/f01_01_workflow.md)
 
-### F01-02: Database Connection (CURRENT)
+### F01-02: Database Connection (COMPLETED)
 *   **Descripción:** Conexión segura con Supabase y validación de infraestructura.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f01_02_requirements.md)
     *   Especificación: [[SPEC-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/specs/f01_02_spec.md)
     *   Plan de Imp.: [[IMPL-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f01_02_impl_plan.md)
 
-### F01-03: Data Contract Creation
+### F01-03: Data Contract Creation (CURRENT)
 *   **Descripción:** Definición y validación de esquemas técnicos.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F01-03]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f01_03_requirements.md)

@@ -1,0 +1,207 @@
+# ##############################################################################
+# PROJECT: Bunuelos_MIRedondito | STAGE: 1.3 - Data Contract Configuration
+# VERSION: 1.3
+# ##############################################################################
+
+# ------------------------------------------------------------------------------
+# 1. IDENTIDAD DEL PROYECTO [REQ-01]
+# ------------------------------------------------------------------------------
+project:
+  name: "Bunuelos_MIRedondito"
+  version_prd: "1.3"
+  system: "Forecaster"
+  company: "Bunuelos SAS"
+
+# ------------------------------------------------------------------------------
+# 2. INFRAESTRUCTURA Y RUTAS (STORAGE PATHS) [REQ-PER-01] [ARC-11]
+# ------------------------------------------------------------------------------
+storage:
+  local:
+    base_dir: "."
+    contracts_dir: "contract/contracts"          # Destino de data_contract.yaml
+    support_dir: "contract/support"              # Destino de statistic_contract.json
+    history_dir: "contract/history"              # Persistencia histórica
+    reports_dir: "outputs/reports/stage_builder" # Destino de builder_report.json
+    
+  cloud:
+    table_name: "sys_data_contract"              # Tabla en Supabase
+    is_active_flag: "is_active"                  # Campo para invalidación atómica
+
+  # Nombres de archivos de salida parametrizados
+  artifacts:
+    data_contract_file: "data_contract.yaml"
+    statistic_file: "statistic_contract.json"
+    report_file: "builder_report.json"
+
+# ------------------------------------------------------------------------------
+# 3. CONFIGURACIÓN DE PROFILING ESTADÍSTICO [REQ-STA-01]
+# ------------------------------------------------------------------------------
+profiling:
+  numeric_metrics: 
+    - "mean"
+    - "median"
+    - "std"
+    - "min"
+    - "max"
+    - "range"
+    - "p25"
+    - "p75"
+  outlier_detection:
+    method: "IQR"
+    multiplier: 1.5
+  categorical_metrics:
+    - "unique_values"
+    - "frequency"
+    - "weight"
+
+# ------------------------------------------------------------------------------
+# 4. CONFIGURACIÓN DE FUENTES Y VALIDACIONES [DAT-01] a [DAT-09]
+# ------------------------------------------------------------------------------
+# Frecuencias soportadas: daily, monthly, annual
+data_sources:
+  - name: "sales"
+    db_table: "ventas"                      # [DAT-01]
+    frequency: "daily"
+    validations: &default_validations
+      allow_duplicates_rows: false
+      allow_duplicates_dates: false
+      allow_duplicate_columns: false
+      allow_extra_columns: false
+      allow_nulls: false
+      allow_sentinel_values: false
+      check_gaps: true
+      check_gold_rule: true    # X-1 para Daily, Boundary Logic para M/A
+      check_freshness: true     # Alineado a la lógica de tiempo
+      check_drift: true         # Monitoreo estadístico
+    custom_rules:
+      - name: "balance_unidades"
+        expression: "abs(unidades_totales - (unidades_pagas + unidades_bonificadas)) <= 0.01"
+      - name: "regla_promocion"
+        expression: "es_promocion == 1 => unidades_pagas == unidades_bonificadas"
+      - name: "positividad_campos"
+        expression: "all_fields >= 0"
+
+  - name: "inventory"
+    db_table: "inventario_detallado"         # [DAT-02]
+    frequency: "daily"
+    validations: *default_validations
+    custom_rules:
+      - name: "demanda_teorica"
+        expression: "demanda_teorica_total == ventas_reales_totales + unidades_agotadas"
+      - name: "positividad_inventario"
+        expression: "all_fields >= 0"
+      - name: "lbs_disponibles"
+        expression: "abs(lbs_totales_disponibles - (lbs_iniciales_bodega + lbs_recibidas)) <= 0.01"
+      - name: "ventas_reales_total_composicion"
+        expression: "ventas_reales_totales == ventas_reales_pagas + ventas_reales_bonificadas"
+
+  - name: "weather"
+    db_table: "clima_diario"                # [DAT-03]
+    frequency: "daily"
+    validations: 
+      <<: *default_validations
+      allow_extra_columns: true   # Excepción: El clima puede traer variables exógenas nuevas
+      allow_nulls: true           # Excepción: Falla de sensores
+    custom_rules:
+      - name: "consistencia_sin_lluvia"
+        expression: "precipitacion_mm == 0 => (tipo_lluvia == 'Ninguna' and es_dia_lluvioso == 0)"
+      - name: "categorias_tipo_lluvia"
+        expression: "tipo_lluvia in ['Ninguna', 'Moderada', 'Fuerte', 'Ligera']"
+      - name: "categorias_evento_macro"
+        expression: "evento_macro in ['La Niña', 'Neutral', 'El Niño']"
+      - name: "binario_es_dia_lluvioso"
+        expression: "es_dia_lluvioso in [0, 1]"
+      - name: "positividad_clima"
+        expression: "(temperatura_media >= 0) and (precipitacion_mm >= 0) and (probabilidad_lluvia >= 0)"
+
+  - name: "unemployment"
+    db_table: "desempleo_mensual"           # [DAT-04]
+    frequency: "monthly"
+    validations: *default_validations
+    custom_rules:
+      - name: "desempleo_positivo"
+        expression: "tasa_desempleo > 0"
+
+  - name: "finance"
+    db_table: "finanzas_pyme"               # [DAT-05]
+    frequency: "daily"
+    validations: *default_validations
+    custom_rules:
+      - name: "rentabilidad_positiva"
+        expression: "precio_unitario > costo_unitario"
+      - name: "calculo_margen_bruto"
+        expression: "abs(margen_bruto - (precio_unitario - costo_unitario)) <= 0.01"
+      - name: "calculo_porcentaje_margen"
+        expression: "abs(porcentaje_margen - (margen_bruto / precio_unitario) * 100) <= 0.01"
+      - name: "positividad_finanzas"
+        expression: "(precio_unitario > 0) and (costo_unitario > 0) and (margen_bruto > 0) and (porcentaje_margen > 0)"
+
+  - name: "ipc"
+    db_table: "ipc_mensual"                 # [DAT-06]
+    frequency: "monthly"
+    validations: *default_validations
+    custom_rules:
+      - name: "inflacion_positiva"
+        expression: "inflacion_mensual_ipc > 0"
+
+  - name: "marketing"
+    db_table: "marketing_digital"           # [DAT-07]
+    frequency: "daily"
+    validations:
+      <<: *default_validations
+      allow_extra_columns: true
+      allow_nulls: true
+    custom_rules:
+      - name: "positividad_mkt"
+        expression: "all_fields >= 0"
+      - name: "total_inversion"
+        expression: "abs(inversion_total - (ig_cost + fb_cost)) <= 2.0"
+      - name: "campana_activa_requisito"
+        expression: "campana_activa == 1 => (ig_cost > 0 and fb_cost > 0)"
+      - name: "percent_ig"
+        expression: "inversion_total > 0 => abs(ig_pct - (ig_cost / inversion_total) * 100) <= 0.05"
+      - name: "percent_fb"
+        expression: "inversion_total > 0 => abs(fb_pct - (fb_cost / inversion_total) * 100) <= 0.05"
+
+  - name: "min_wage"
+    db_table: "salario_minimo_anual"         # [DAT-08]
+    frequency: "annual"
+    validations: *default_validations
+    custom_rules:
+      - name: "smlv_positivo"
+        expression: "smlv > 0"
+
+  - name: "trm"
+    db_table: "trm_diaria"                  # [DAT-09]
+    frequency: "daily"
+    validations: *default_validations
+    custom_rules:
+      - name: "trm_positiva"
+        expression: "trm > 0"
+
+# ------------------------------------------------------------------------------
+# 5. LÓGICA DE VALIDACIÓN TEMPORAL Y UMBRALES [REQ-VAL-01] [MET-INF-01]
+# ------------------------------------------------------------------------------
+thresholds:
+  # Lógica de "Regla de Oro" (Data Leakage) y Frescura de Datos
+  time_boundary_logic:
+    daily:
+      rule: "X-1"               # Info correcta es hasta el día anterior
+    monthly:
+      current_valid: "X"        # Info correcta es mes actual
+      boundary_day: 1           # Si hoy es día 1 del mes X+1, retroceder al mes anterior (X)
+    annual:
+      current_valid: "X"        # Info correcta es año actual
+      boundary_day: 1           # Si hoy es día 1 del año X+1, retroceder al año anterior (X)
+
+  # Parámetros de Calidad y Rendimiento
+  outlier_method: "IQR"
+  iqr_multiplier: 1.5
+  drift_significance_level: 0.05
+  max_execution_latency_ms: 2000
+
+  # Definición de Valores Centinela [REQ-VAL-01]
+  # Estos valores serán tratados como "nulos" o "errores" por el motor de validación
+  sentinel_values:
+    numeric: [-99, -999, -9999, 999, 9999, -1]
+    categorical: ["NULL", "NA", "N/A", "nan", "UNDEFINED", "none", "ERR"]

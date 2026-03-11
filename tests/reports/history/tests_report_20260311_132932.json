@@ -2,7 +2,7 @@
   {
     "type": "Unitaria",
     "status": "PASSED",
-    "timestamp": "2026-03-11T13:33:46.938949",
+    "timestamp": "2026-03-11T13:29:19.568780",
     "details": "Resultados de la suite Unitaria",
     "tests": [
       {
@@ -50,7 +50,7 @@
   {
     "type": "Integracion",
     "status": "PASSED",
-    "timestamp": "2026-03-11T13:33:46.938949",
+    "timestamp": "2026-03-11T13:29:19.568780",
     "details": "Resultados de la suite Integracion",
     "tests": [
       {

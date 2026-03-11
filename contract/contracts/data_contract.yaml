@@ -1,0 +1,11 @@
+version: '1.3'
+contract_id: abd3edf9-a3a7-4fd5-97c6-8633d5319d3f
+dvc_hash: 30fbeb9943bb8834347047ed7ca30530
+generated_at: '2026-03-11T13:33:03.811536'
+sources:
+  test_source:
+    schema:
+      id: int64
+      name: object
+    validations: {}
+    custom_rules: []
