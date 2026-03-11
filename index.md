@@ -34,7 +34,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
 
 ## 🏗️ FASE 01: Kickoff and Implementation | (IN PROGRESS)
 
-### F01-01: Infrastructure and Documentation (CURRENT)
+### F01-01: Infrastructure and Documentation (COMPLETED)
 *   **Descripción:** Configuración del entorno maestro, protocolos de agente y estructura física del proyecto.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F01-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f01_01_requirements.md)
@@ -42,7 +42,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
     *   Plan de Imp.: [[IMPL-F01-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f01_01_impl_plan.md)
     *   Capa Agente: [RULE](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/rules/f01_01_rules.md) | [SKILL](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/skills/f01_01_pm/SKILL.md) | [WORK](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/.agent/workflows/f01_01_workflow.md)
 
-### F01-02: Database Connection
+### F01-02: Database Connection (CURRENT)
 *   **Descripción:** Conexión segura con Supabase y validación de infraestructura.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f01_02_requirements.md)

@@ -39,13 +39,18 @@ This document outlines the execution roadmap for the demand forecasting system o
 - [x] Setup of Strategic Communication Governance (Rules, Skill, Workflow).
 - [x] Setup of Change Control Governance (Rules, Skill, Workflow).
 - [x] Setup of Lessons Learned Governance (Rules, Skill, Workflow).
+- [x] Setup of Quality Assurance Governance (Rules, Skill, Workflow).
+- [x] Creation of Testing Structure (`tests/unit`, `tests/integration`, `tests/functional`, `tests/reports`).
 
-### Stage 1.2: Database Connection (CURRENT)
-- [ ] Configuration of environment variables (`.env`) and secure credentials.
-- [ ] Implementation of the Supabase Connector helper.
-- [ ] Connection validation and latency test.
+### Stage 1.2: Database Connection (COMPLETED)
+- [x] Refinamiento de Documentación SDD a Nivel Senior: [PRD](../reqs/f01_02_requirements.md), [SPEC](../specs/f01_02_spec.md), [IMPL Plan](../plans/f01_02_impl_plan.md).
+- [x] Configuración de variables de entorno segura (`.env`) y blindaje de secretos.
+- [x] Implementación de `DBConnector` bajo patrón **Singleton** y **Dual-Client Proxy**.
+- [x] Creación del Framework de Reportabilidad QA (Scripts de consolidación y doble persistencia).
+- [x] Ejecución y validación de Pipeline de Calidad (Unit & Integration Tests).
+- [x] Prueba de conectividad exitosa y validación de latencia [MET-INF-01].
 
-### Stage 1.3: Data Contract Creation
+### Stage 1.3: Data Contract Creation (CURRENT)
 - [ ] Introspection of Supabase tables.
 - [ ] Definition of data types, constraints, and valid ranges.
 - [ ] Freezing of schemas for the MVP phase.

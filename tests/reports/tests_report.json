@@ -1,0 +1,42 @@
+[
+  {
+    "type": "Unitaria",
+    "status": "PASSED",
+    "timestamp": "2026-03-11T10:42:21.989599",
+    "details": "Resultados de la suite Unitaria",
+    "tests": [
+      {
+        "name": "[test_db_connector_unit.py] test_singleton_pattern",
+        "status": "PASSED"
+      },
+      {
+        "name": "[test_db_connector_unit.py] test_missing_environment_variables",
+        "status": "PASSED"
+      },
+      {
+        "name": "[test_db_connector_unit.py] test_get_client_and_service_client_initialization",
+        "status": "PASSED"
+      },
+      {
+        "name": "[test_db_connector_unit.py] test_get_service_client_fails_if_not_configured",
+        "status": "PASSED"
+      }
+    ]
+  },
+  {
+    "type": "Integracion",
+    "status": "PASSED",
+    "timestamp": "2026-03-11T10:42:21.989599",
+    "details": "Resultados de la suite Integracion",
+    "tests": [
+      {
+        "name": "[test_db_connector_integration.py] test_db_connection_real",
+        "status": "PASSED"
+      },
+      {
+        "name": "[test_db_connector_integration.py] test_singleton_consistency_in_integration",
+        "status": "PASSED"
+      }
+    ]
+  }
+]
