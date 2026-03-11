@@ -1,20 +1,24 @@
 ---
-description: Workflow para la gestión y registro formal de cambios en la documentación base del proyecto.
+description: Gestión profesional de solicitudes de cambio para documentos aprobados.
 ---
 
 # WORKFLOW: Gestión de Control de Cambios (CHANGE_CONTROL)
 
-Este flujo asegura que cualquier desviación de las especificaciones originales sea documentada y aprobada.
+Este workflow garantiza que cualquier modificación al proyecto sea trazable, aprobada y consistente en toda la documentación (Efecto Dominó).
 
 ## Pasos del Workflow
 
-### 1. Detección y Clasificación
-- El Agente identifica si el cambio solicitado es **Menor** o **Mayor** según las [Change Control Rules](../../.agent/rules/change_control_rules.md).
-- Si es Mayor, se procede con este flujo.
+### 1. Recepción y Clasificación
+- **Acción**: Identificar la solicitud del usuario y clasificarla (Menor vs Mayor).
+- **Herramienta**: Consultar las [Change Control Rules](../../.agent/rules/change_control_rules.md).
 
-### 2. Creación de la Solicitud de Cambio (CR)
+### 2. Análisis de Impacto (Sólo Cambios Mayores)
+- **Acción**: Realizar un escaneo de los documentos actuales para identificar dependencias.
+- **Salida**: Informar al usuario: "¿Si cambiamos [X], sabías que esto afecta a [Y] y [Z]?".
+
+### 3. Creación de la Solicitud de Cambio (CR)
 // turbo
-Genera el documento formal en la ruta de control de cambios.
+Genera el documento formal en la ruta de control de cambios para auditoría.
 ```powershell
 $PathCC = "docs/control_changes"
 if (-not (Test-Path $PathCC)) { New-Item -Path $PathCC -ItemType Directory }
@@ -55,14 +59,19 @@ New-Item -Path $PathCR -Value $CR_Template -ItemType File
 Write-Host "CR creada en: $PathCR"
 ```
 
-### 3. Solicitud de Aprobación
-- El Agente presenta el impacto en el chat y solicita aprobación explícita de Triple S.
+### 4. Actualización del Project Charter (Change Log)
+- **Acción**: Ir a la sección "Registro de Cambios" del [Project Charter](../../docs/artifacts/project_charter.md).
+- **Edición**: Agregar la nueva entrada con la fecha de hoy, autor "Triple S" y nueva versión.
+- **Actualización**: Modificar el elemento específico (`[REQ]`, `[OBJ]`, etc.) dentro del Charter.
 
-### 4. Ejecución del Efecto Dominó
-- Actualizar el documento principal.
-- Actualizar todos los artefactos vinculados (Charter, REQ, SPEC, IMPL) en la misma sesión.
-- Incrementar versiones según el estándar (v1.0 -> v1.1).
+### 5. Propagación en Cascada
+- **Acción**: Actualizar documentos secundarios afectados (PRDs, SPECs, Implement Plans).
+- **Edición**: Actualizar estos documentos e incrementar sus versiones (v1.0 -> v1.1).
 
-### 5. Sincronización
-- Realizar commit con el ID de la CR en el mensaje.
-- Push a GitHub.
+### 6. Verificación de Trazabilidad
+- **Acción**: Validar que la **Matriz de Trazabilidad** al final del Project Charter siga siendo correcta.
+- **Edición**: Ajustar la tabla de trazabilidad si se agregaron o eliminaron requerimientos o entregables.
+
+### 7. Confirmación y Sincronización
+- **Acción**: Mostrar al usuario un resumen de los archivos actualizados.
+- **Sincronización**: Realizar commit en Git con el ID de la CR y push a GitHub.
