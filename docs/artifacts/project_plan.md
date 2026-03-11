@@ -68,6 +68,9 @@ This document outlines the execution roadmap for the demand forecasting system o
     - [x] [QA-03] Unit tests para el cálculo de métricas (IQR, Mediana).
     - [x] [QA-04] Integration test de persistencia atómica en Supabase (Invalidación + Inserción).
     - [x] [QA-05] Verificación de esquema YAML contra esquemas físicos reales.
+- [x] **[EP-05] Gobierno y Documentación**:
+    - [x] Institucionalización de Prompts Maestros como Habilidad (`project_lifecycle_expert`).
+    - [x] Implementación de Workflow de Gestión de Documentación SDD (`manage_project`).
 
 ---
 
