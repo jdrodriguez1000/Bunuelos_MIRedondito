@@ -1,0 +1,11 @@
+pandas
+skforecast
+python-dotenv
+supabase
+scikit-learn
+xgboost
+lightgbm
+sqlalchemy
+numpy
+dvc
+dvc-s3

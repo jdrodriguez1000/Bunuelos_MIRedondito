@@ -1,0 +1,41 @@
+# PROTOCOLO DE CONTEXTO OBLIGATORIO (MANDATO CRÍTICO)
+
+Tu primera acción en cada sesión, sin excepción, es leer e internalizar el archivo file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/index.md. 
+
+No puedes sugerir cambios ni ejecutar código sin haber verificado el estado de las fases en este índice. Este documento es la Única Fuente de Verdad (SSOT) para la navegación del proyecto.
+
+---
+
+## 🚦 Gobernanza Global
+- **Mentalidad:** "Less is More". Desarrollo por capas incrementales. Solo agregar variables que demuestren valor (reducción de MAPE).
+- **Producción Primero:** La prioridad es la automatización. No se construirán notebooks operativos. Todo el flujo de datos, entrenamiento e inferencia debe residir en módulos `.py` dentro de `src/`.
+- **Spec-Driven Development (SDD):** Metodología obligatoria para cada etapa de cada fase. Antes de escribir código productivo, se deben crear:
+    1.  **REQ:** Documento de Requerimientos.
+    2.  **SPEC:** Documento de Especificaciones Técnicas.
+    3.  **IMPL:** Plan de Implementación Detallado.
+- **Capa Agente:** Para cada etapa, se evaluará la necesidad de crear Reglas (`RULE`), Habilidades (`SKILL`) o Flujos de Trabajo (`WORK`) específicos.
+- **Trazabilidad:** Cada acción técnica debe estar ligada a una fase del `index.md`.
+- **Inmutabilidad:** No modificar documentos marcados con `[MANDATO]` sin seguir el protocolo de Control de Cambios.
+
+## 🛠️ Reglas Técnicas (ML & Forecasting)
+- **Entorno:** Uso obligatorio de ambiente virtual (`venv`) con Python 3.12+.
+- **Dependencias:** Gestión estricta mediante `requirements.txt`. Cualquier nueva instalación debe ser persistida en este archivo inmediatamente.
+- **Stack:** Python, `skforecast` (Direct), Supabase (PostgreSQL), `DVC` (Data Versioning).
+- **Modelos:** Evaluar Ridge, RandomForest, LightGBM, XGBoost, GradientBoosting y HistGradientBoosting.
+- **La Regla de Oro (X-1):** Nunca usar datos del día X para pronosticar el día X. El entrenamiento y la inferencia deben basarse en información completa hasta el día X-1.
+- **C1.2 (Evitar Ruido):** Un agente desarrollando un código del módulo "Data Contract" _jamás_ considerará reglas de ventas, cobros o algoritmos de ML. Si una regla no está en tus archivos vinculados explícitamente, asúmela irrelevante.
+- **C1.3 (Restricción de Archivos):** NUNCA escribas un documento o generes un archivo sin que el usuario lo pida explícitamente. La proactividad debe limitarse a propuestas de texto o código en el chat, no a la persistencia en disco sin autorización.
+- **Regla del Horizonte:** Pronóstico de 95 días (diarios). Presentación agregada mensualmente para cubrir un horizonte estratégico de 3 meses naturales.
+
+## 📊 Reglas de Dominio (Bunuelos SAS)
+- **Producto:** El Buñuelo (estrella del cliente).
+- **Promociones:** 2x1 en Abril-Mayo y Septiembre-Octubre. Incluir inversión en Ads 20 días antes.
+- **Clima:** Valorar precipitaciones. Lluvia ligera impulsa ventas; lluvia intensa las reduce.
+- **Macro:** Considerar rezagos en TRM e Inflación.
+
+## 📂 Organización de Archivos
+- `src/`: Código fuente productivo.
+- `docs/artifacts/`: Documentos estratégicos (Project Charter).
+- `notebooks/`: EDA y experimentación.
+- `.agent/`: Gobernanza del Agente (Reglas, Skills, Workflows).
+- `executive/`: Reportes de storytelling para el cliente.

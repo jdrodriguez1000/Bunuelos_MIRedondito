@@ -1,0 +1,24 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+.venv/
+.pytest_cache/
+
+# DVC (Data Version Control)
+.dvc/cache/
+.dvc/tmp/
+.dvc/config.local
+
+# Agent History
+.agent/artifacts/test_history/
+.agent/artifacts/history/
+
+# Data (Managed by DVC or excluded)
+data/
+*.csv
+*.parquet
