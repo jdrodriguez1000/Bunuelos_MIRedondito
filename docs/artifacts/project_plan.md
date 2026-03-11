@@ -37,7 +37,8 @@ This document outlines the execution roadmap for the demand forecasting system o
 - [x] Setup of Virtual Environment (Python 3.12+).
 - [x] Creation of `requirements.txt` and dependency installation.
 - [x] Setup of Strategic Communication Governance (Rules, Skill, Workflow).
-- [x] Setup of Change Control Governance (Rules, Workflow).
+- [x] Setup of Change Control Governance (Rules, Skill, Workflow).
+- [x] Setup of Lessons Learned Governance (Rules, Skill, Workflow).
 
 ### Stage 1.2: Database Connection (CURRENT)
 - [ ] Configuration of environment variables (`.env`) and secure credentials.

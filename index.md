@@ -26,7 +26,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
 ---
 
 ## 📜 Cimientos Estratégicos (Nivel Alto)
-- 📊 **Reportes Ejecutivos**: [[LATEST]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/executive/phase_01_executive_latest.md) | [[HISTORY]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/executive/history/)
+- 📊 **Reportes Ejecutivos**: [[LATEST]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/executive/phase_01_01_executive_latest.md) | [[HISTORY]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/executive/history/)
 - 🧭 **Project Charter**: [[VER DOCUMENTO]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/artifacts/project_charter.md) (Visión, Objetivos y Roadmap)
 *   **Plan General:** [[PLAN-MASTER]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/artifacts/project_plan.md) (Cronograma y Estados de Fase)
 

@@ -21,17 +21,18 @@ Este workflow transforma la data técnica en valor de negocio para Bunuelos SAS.
 - Definir las **Verdades Críticas** (Advertencias operativas basadas en datos).
 
 ### 4. Generación del Reporte Ejecutivo
-- Crear el archivo `docs/executive/phase_XX_executive_latest.md`.
+- Crear el archivo `docs/executive/phase_XX_YY_executive_latest.md`.
 - Aplicar la paleta de colores y el tono directivo (Cero Código).
 
 ### 5. Doble Persistencia
 // turbo
 Crea la traza histórica del informe.
 ```powershell
-$PhaseNum = if ($env:PHASE_NUM) { $env:PHASE_NUM } else { "01" } # Default a 01 si no está definido
+$PhaseNum = if ($env:PHASE_NUM) { $env:PHASE_NUM } else { "01" } 
+$StageNum = if ($env:STAGE_NUM) { $env:STAGE_NUM } else { "01" }
 $Timestamp = Get-Date -Format "yyMMdd_HHmmss"
-$LatestPath = "docs/executive/phase_$($PhaseNum)_executive_latest.md"
-$HistoryPath = "docs/executive/history/phase_$($PhaseNum)_executive_$($Timestamp).md"
+$LatestPath = "docs/executive/phase_$($PhaseNum)_$($StageNum)_executive_latest.md"
+$HistoryPath = "docs/executive/history/phase_$($PhaseNum)_$($StageNum)_executive_$($Timestamp).md"
 
 if (-not (Test-Path "docs/executive/history")) { New-Item -Path "docs/executive/history" -ItemType Directory }
 
