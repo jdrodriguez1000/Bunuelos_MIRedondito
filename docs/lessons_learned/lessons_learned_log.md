@@ -1,9 +1,10 @@
 # LOG DE LECCIONES APRENDIDAS - MI REDONDITO
 
-## [2026-03-12] Mejora en Robustez de Pruebas y Validaciones
-- **Technical**: Se identificó que la tabla `sys_pipeline_execution` tiene una restricción de check para `validation_type`. Es crítico usar valores permitidos (`FULL`, `INCREMENTAL`, etc.) incluso en pruebas de integración.
-- **Technical**: La lógica de matcheo de tipos en `ContractValidator` era demasiado restrictiva para tipos `datetime`. Se expandió para reconocer subcadenas como `date` en los dtypes de Pandas.
-- **Process**: La importancia de la doble persistencia de reportes de pruebas (latest + history) permite trazabilidad de la salud del proyecto.
+## [2026-03-12] Refinamiento de Reportes MVP e Integridad
+- **Technical**: Transformar resultados de validación en listas de micro-tests granulares. Esto permite una trazabilidad total "columna por columna" y "regla por regla", incrementando la confianza del usuario final en los resultados.
+- **Process**: Persistencia local incondicional. El pipeline debe generar el `validation_report.json` local incluso si fallan las operaciones en la nube o si ocurre un error de integridad (`SECURITY_BREACH`), asegurando que el equipo siempre tenga un diagnóstico actionable.
+- **Security**: Sincronización proactiva de hashes de contratos. Los cambios en el `data_contract.yaml` local invalidan la ejecución si no se sincronizan con Supabase. Se requiere un procedimiento o script de sincronización para evitar bloqueos del pipeline.
+- **Process**: Gestión de limpieza de archivos. La eliminación recursiva de carpetas durante limpiezas generales puede borrar activos críticos (como `stage_builder`). Se debe validar la jerarquía de carpetas requeridas antes de ejecutar comandos de borrado masivo.
 
 | Fecha | Fase | Categoría | Hecho | Causa Raíz | Acción / Aprendizaje |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -18,3 +19,6 @@
 | 2026-03-12 | 2.1 | TECHNICAL | Violación de constraint `validation_type` en Supabase. | Uso de strings arbitrarios en pruebas de integración que no coincidían con el check de la DB. | Sincronizar siempre los valores de prueba con los dominios permitidos en la base de datos (e.g., `FULL`, `INCREMENTAL`). |
 | 2026-03-12 | 2.1 | TECHNICAL | Rigidez en validación estructural de tipos `datetime`. | El matcheo de tipos no reconocía subcadenas `date` de Pandas, causando fallos falsos positivos. | Implementar detecciones de tipos basadas en subcadenas para mayor flexibilidad frente a versiones de librerías. |
 | 2026-03-12 | 2.1 | PROCESS | Importancia de la Doble Persistencia en QA. | Riesgo de perder trazabilidad histórica de la salud del código al sobrescribir reportes. | Mantener siempre un archivo `latest` para consumo rápido y una carpeta `history/` para auditoría temporal. |
+| 2026-03-12 | 2.1 | TECHNICAL | Desajuste en reporteo granular solicitado por el usuario. | Los reportes iniciales solo daban un status general sin el detalle "micro-test" por columna. | Se refactorizó `validator.py` para iterar explícitamente sobre el esquema y reglas, generando una lista de resultados `tests` que el usuario puede auditar fácilmente. |
+| 2026-03-12 | 2.1 | SECURITY | Bloqueo por desajuste de Hash de Contrato. | Modificaciones locales en el contrato YAML sin sincronización en Supabase disparan el Gatekeeper de Seguridad. | El "Security Breach" es una función crítica; se aprendió que para mantenimiento ágil se requiere un script de sincronización de hashes autorizado. |
+| 2026-03-12 | 2.1 | PROCESS | Omisión de reportes por "No New Data". | La lógica de Watermarks evitaba la generación de reportes si no había datos nuevos, dejando un vacío informativo. | Se ajustó el motor para generar un reporte "SKIPPED/SUCCESS" informativo aun cuando no hay datos frescos, garantizando la existencia de un entregable. |

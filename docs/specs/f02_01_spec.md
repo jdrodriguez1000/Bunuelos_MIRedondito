@@ -6,6 +6,7 @@ Este documento traduce los requerimientos funcionales del Stage 2.1 en un diseñ
 | Componente | Tag Spec | Requerimiento PRD Vinculado | Función Principal |
 | :--- | :--- | :--- | :--- |
 | **Validador Core** | `[ARC-12]` | **[REQ-VAL-01]**, **[REQ-STR-01]** | Motor de pruebas de esquema y tipos. |
+| **Filtro de Selección** | `[ARC-12.2]` | **[REQ-SELECT-01]** | Lógica de pre-filtrado de fuentes inactivas (`enabled: false`). |
 | **Gestor de Integridad** | `[ARC-12.1]` | **[REQ-HAS-01]** | Verificación MD5 local vs Cloud. |
 | **Control de Sincronía** | `[ARC-15]` | **[REQ-WAT-01]** | Lógica de Watermarks (FULL/INCREMENTAL). |
 | **Trackers de Auditoría** | `[ARC-13]` | **[REQ-OUT-02]**, **[REQ-OUT-03]** | Persistencia en Supabase y Reporte JSON. |
@@ -26,7 +27,8 @@ classDiagram
     class ContractValidator {
         +config: ConfigLoader
         +engine: ValidatorEngine
-        +validate_gate(df) bool
+        +validate_gate(df, table_name) bool
+        +is_table_active(table_name) bool
     }
     class WatermarkManager {
         +get_last_pointer() datetime
@@ -57,11 +59,12 @@ El sistema leerá su contexto operativo de `config.yaml`, estructurado por fases
 ### 3.1. Algoritmo de Validación (Pseudocódigo) [SPEC-PIP-01]
 ```python
 0. SETUP: Cargar 'config.yaml' y verificar existencia de tablas en Supabase.
+0.1 SELECTION: Para cada tabla, verificar flag 'enabled'. Si es False -> Omitir y Log.
 1. AUTH: Conectar a Supabase y obtener 'contract_id' activo.
 2. INTEGRITY: MD5(local_yaml) == cloud_hash ? Continue : Abort(FAIL-SECURITY).
 3. AUDIT_INIT: Insertar registro 'IN_PROGRESS' en sys_pipeline_execution.
 4. WATERMARK: Consultar último 'watermark_end' para determinar tipo (FULL/INC).
-5. VALIDATION: Ejecutar suite de pruebas (Dtypes -> Schema -> Nulls -> Business Rules).
+5. VALIDATION: Ejecutar suite de pruebas solo sobre fuentes habilitadas.
 6. REPORT: Generar reporte JSON y persistir en sys_validation_contract.
 7. GATE: validation_status == FAILED ? sys.exit(1) : Continue_Pipeline.
 ```

@@ -1,7 +1,8 @@
 {
-    "timestamp": "2026-03-11T18:44:50.130741",
-    "status": "SUCCESS",
+    "timestamp": "2026-03-12T19:34:40.401871+00:00",
+    "phase": "MVP",
     "table": "inventario_detallado",
+    "status": "SUCCESS",
     "results": {
         "structural": {
             "status": "SUCCESS",
@@ -11,120 +12,138 @@
                     "name": "Schema check: fecha",
                     "target": "fecha",
                     "expected": "object",
-                    "actual": "object",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "object"
                 },
                 {
                     "name": "Schema check: kit_inicial_bodega",
                     "target": "kit_inicial_bodega",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: lbs_iniciales_bodega",
                     "target": "lbs_iniciales_bodega",
                     "expected": "float64",
-                    "actual": "float64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "float64"
                 },
                 {
                     "name": "Schema check: kit_recibido",
                     "target": "kit_recibido",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: lbs_recibidas",
                     "target": "lbs_recibidas",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: lbs_totales_disponibles",
                     "target": "lbs_totales_disponibles",
                     "expected": "float64",
-                    "actual": "float64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "float64"
                 },
                 {
                     "name": "Schema check: demanda_teorica_total",
                     "target": "demanda_teorica_total",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: bunuelos_preparados",
                     "target": "bunuelos_preparados",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: ventas_reales_totales",
                     "target": "ventas_reales_totales",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: ventas_reales_pagas",
                     "target": "ventas_reales_pagas",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: ventas_reales_bonificadas",
                     "target": "ventas_reales_bonificadas",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: bunuelos_desperdiciados",
                     "target": "bunuelos_desperdiciados",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: unidades_agotadas",
                     "target": "unidades_agotadas",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: kit_final_bodega",
                     "target": "kit_final_bodega",
                     "expected": "int64",
-                    "actual": "int64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "int64"
                 },
                 {
                     "name": "Schema check: lbs_finales_bodega",
                     "target": "lbs_finales_bodega",
                     "expected": "float64",
-                    "actual": "float64",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "float64"
                 },
                 {
                     "name": "Schema check: created_at",
                     "target": "created_at",
                     "expected": "object",
-                    "actual": "object",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "object"
                 },
                 {
                     "name": "Schema check: updated_at",
                     "target": "updated_at",
                     "expected": "object",
-                    "actual": "object",
-                    "status": "SUCCESS"
+                    "status": "SUCCESS",
+                    "actual": "object"
+                }
+            ]
+        },
+        "continuity": {
+            "status": "SUCCESS",
+            "errors": [],
+            "tests": [
+                {
+                    "name": "Data Leakage check",
+                    "target": "fecha",
+                    "status": "SUCCESS",
+                    "max_date": "2026-03-11 00:00:00"
+                },
+                {
+                    "name": "Stale Data check",
+                    "target": "fecha",
+                    "status": "SUCCESS",
+                    "max_date": "2026-03-11 00:00:00"
                 }
             ]
         },
@@ -233,6 +252,12 @@
                     "target": "updated_at",
                     "null_count": 0,
                     "status": "SUCCESS"
+                },
+                {
+                    "name": "Duplicate rows check",
+                    "target": "dataframe",
+                    "dup_count": 0,
+                    "status": "SUCCESS"
                 }
             ]
         },
@@ -246,87 +271,8 @@
                     "status": "SUCCESS"
                 },
                 {
-                    "name": "positividad_inventario (kit_inicial_bodega)",
-                    "expression": "kit_inicial_bodega >= 0",
-                    "target": "kit_inicial_bodega",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (lbs_iniciales_bodega)",
-                    "expression": "lbs_iniciales_bodega >= 0",
-                    "target": "lbs_iniciales_bodega",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (kit_recibido)",
-                    "expression": "kit_recibido >= 0",
-                    "target": "kit_recibido",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (lbs_recibidas)",
-                    "expression": "lbs_recibidas >= 0",
-                    "target": "lbs_recibidas",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (lbs_totales_disponibles)",
-                    "expression": "lbs_totales_disponibles >= 0",
-                    "target": "lbs_totales_disponibles",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (demanda_teorica_total)",
-                    "expression": "demanda_teorica_total >= 0",
-                    "target": "demanda_teorica_total",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (bunuelos_preparados)",
-                    "expression": "bunuelos_preparados >= 0",
-                    "target": "bunuelos_preparados",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (ventas_reales_totales)",
-                    "expression": "ventas_reales_totales >= 0",
-                    "target": "ventas_reales_totales",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (ventas_reales_pagas)",
-                    "expression": "ventas_reales_pagas >= 0",
-                    "target": "ventas_reales_pagas",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (ventas_reales_bonificadas)",
-                    "expression": "ventas_reales_bonificadas >= 0",
-                    "target": "ventas_reales_bonificadas",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (bunuelos_desperdiciados)",
-                    "expression": "bunuelos_desperdiciados >= 0",
-                    "target": "bunuelos_desperdiciados",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (unidades_agotadas)",
-                    "expression": "unidades_agotadas >= 0",
-                    "target": "unidades_agotadas",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (kit_final_bodega)",
-                    "expression": "kit_final_bodega >= 0",
-                    "target": "kit_final_bodega",
-                    "status": "SUCCESS"
-                },
-                {
-                    "name": "positividad_inventario (lbs_finales_bodega)",
-                    "expression": "lbs_finales_bodega >= 0",
-                    "target": "lbs_finales_bodega",
+                    "name": "positividad_inventario",
+                    "expression": "all_fields >= 0",
                     "status": "SUCCESS"
                 },
                 {
@@ -342,6 +288,6 @@
             ]
         }
     },
-    "latency_ms": 544,
-    "rows_processed": 3355
+    "latency_ms": 1642,
+    "rows_processed": 3357
 }

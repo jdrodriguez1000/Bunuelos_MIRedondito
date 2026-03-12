@@ -82,10 +82,10 @@ This document outlines the execution roadmap for the demand forecasting system o
 > 1. **Monitoreo y Control Automático:** No se implementarán triggers de re-entrenamiento ni alertas de drift operativos en esta fase.
 > 2. **Simulaciones "What-If":** No se incluirá el motor de escenarios (Precios, Promociones, Clima) en el MVP.
 
-### Stage 2.1: Data Contract Validation (COMPLETED)
+### Stage 2.1: Data Contract Validation (IN PROGRESS)
 - [x] Refinamiento de Documentación SDD a Nivel Senior: [PRD](../reqs/f02_01_requirements.md), [SPEC](../specs/f02_01_spec.md), [IMPL Plan](../plans/f02_01_impl_plan.md).
-- [x] **[EP-06] Guardrail de Calidad y Semaforización**:
-    - [ ] **Configuración e Infraestructura Cloud**:
+- [ ] **[EP-06] Guardrail de Calidad y Semaforización**:
+    - [x] **Configuración e Infraestructura Cloud**:
         - [x] Ajuste de `config.yaml` para segmentación por fases (MVP/Futuross) [REQ-CFG-01].
         - [x] Creación física de la tabla `sys_validation_contract` en Supabase [REQ-OUT-02].
         - [x] Creación física de la tabla `sys_pipeline_execution` en Supabase [REQ-OUT-03].
@@ -93,12 +93,16 @@ This document outlines the execution roadmap for the demand forecasting system o
         - [x] Implementación de `IntegrityChecker` (MD5 local vs Cloud) [REQ-HAS-01].
         - [x] Desarrollo del `WatermarkManager` (Lógica FULL/INC/SKIP) [REQ-WAT-01].
         - [x] Componente `ContractValidator` con reglas vectorizadas [REQ-VAL-01].
-    - [x] **Orquestación final**:
+    - [ ] **Control Selectivo de Fuentes (Feature Flags)**:
+        - [ ] Definición de parámetro `enabled` en `config.yaml` [REQ-SELECT-01].
+        - [ ] Lógica de omisión de carga/validación en `validator.py` y `main.py`.
+    - [ ] **Orquestación final**:
         - [x] Creación de `main.py` como entrypoint CLI (--phase, --mode) [REQ-ARC-15].
-    - [x] **QA y Estabilización**:
+        - [ ] Reportabilidad de fuentes activas vs inactivas en logs.
+    - [ ] **QA y Estabilización**:
         - [x] Validación de "Regla de Oro" (Fijación de puntero en X-1).
         - [x] Prueba de estrés de validación con volúmenes de datos reales (3355 registros).
-        - [x] Simulación de aborto por incoherencia de contrato (Integrity Check).
+        - [ ] Test unitario para verificar que el pipeline ignora fuentes con `enabled: false`.
         - [x] Generación de Reporte de Validación detallado (prueba a prueba) con Doble Persistencia (Fijo + History).
 
 ### Stage 2.2: Data Loading (PENDING)

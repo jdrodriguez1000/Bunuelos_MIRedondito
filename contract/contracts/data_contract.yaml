@@ -1,11 +1,195 @@
 version: '1.3'
-contract_id: 53225a89-6474-4dbd-a65e-275b46a6f7f2
-stats_hash_ref: 655eb4a46bef7b1119c7ad04b3d20439
-generated_at: '2026-03-11T20:28:28.380686'
+contract_id: 89b8fcab-505e-4167-bbd3-e7dfc56f3e5c
+stats_hash_ref: a351464723cd3131f5c0f40198593705
+generated_at: '2026-03-12T14:42:57.057456'
 sources:
-  test_source:
+  inventory:
     schema:
-      id: int64
-      name: object
-    validations: {}
-    custom_rules: []
+      fecha: object
+      kit_inicial_bodega: int64
+      lbs_iniciales_bodega: float64
+      kit_recibido: int64
+      lbs_recibidas: int64
+      lbs_totales_disponibles: float64
+      demanda_teorica_total: int64
+      bunuelos_preparados: int64
+      ventas_reales_totales: int64
+      ventas_reales_pagas: int64
+      ventas_reales_bonificadas: int64
+      bunuelos_desperdiciados: int64
+      unidades_agotadas: int64
+      kit_final_bodega: int64
+      lbs_finales_bodega: float64
+      created_at: object
+      updated_at: object
+    validations: &id001
+      allow_duplicates_rows: false
+      allow_duplicates_dates: false
+      allow_duplicate_columns: false
+      allow_extra_columns: false
+      allow_nulls: false
+      allow_sentinel_values: false
+      check_gaps: true
+      check_gold_rule: true
+      check_freshness: true
+      check_drift: true
+    custom_rules:
+    - name: demanda_teorica
+      expression: demanda_teorica_total == ventas_reales_totales + unidades_agotadas
+    - name: positividad_inventario
+      expression: all_fields >= 0
+    - name: lbs_disponibles
+      expression: abs(lbs_totales_disponibles - (lbs_iniciales_bodega + lbs_recibidas))
+        <= 0.01
+    - name: ventas_reales_total_composicion
+      expression: ventas_reales_totales == ventas_reales_pagas + ventas_reales_bonificadas
+  sales:
+    schema:
+      fecha: object
+      unidades_totales: int64
+      unidades_pagas: int64
+      unidades_bonificadas: int64
+      es_promocion: int64
+      ads_activos: int64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: balance_unidades
+      expression: abs(unidades_totales - (unidades_pagas + unidades_bonificadas))
+        <= 0.01
+    - name: regla_promocion
+      expression: es_promocion == 1 => unidades_pagas == unidades_bonificadas
+    - name: positividad_campos
+      expression: all_fields >= 0
+  weather:
+    schema:
+      fecha: object
+      temperatura_media: float64
+      probabilidad_lluvia: float64
+      precipitacion_mm: float64
+      tipo_lluvia: object
+      evento_macro: object
+      es_dia_lluvioso: int64
+      created_at: object
+      updated_at: object
+    validations:
+      allow_duplicates_rows: false
+      allow_duplicates_dates: false
+      allow_duplicate_columns: false
+      allow_extra_columns: true
+      allow_nulls: true
+      allow_sentinel_values: false
+      check_gaps: true
+      check_gold_rule: true
+      check_freshness: true
+      check_drift: true
+    custom_rules:
+    - name: consistencia_sin_lluvia
+      expression: precipitacion_mm == 0 => (tipo_lluvia == 'Ninguna' and es_dia_lluvioso
+        == 0)
+    - name: categorias_tipo_lluvia
+      expression: tipo_lluvia in ['Ninguna', 'Moderada', 'Fuerte', 'Ligera']
+    - name: categorias_evento_macro
+      expression: "evento_macro in ['La Ni\xF1a', 'Neutral', 'El Ni\xF1o']"
+    - name: binario_es_dia_lluvioso
+      expression: es_dia_lluvioso in [0, 1]
+    - name: positividad_clima
+      expression: (temperatura_media >= 0) and (precipitacion_mm >= 0) and (probabilidad_lluvia
+        >= 0)
+  unemployment:
+    schema:
+      fecha: object
+      tasa_desempleo: float64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: desempleo_positivo
+      expression: tasa_desempleo > 0
+  finance:
+    schema:
+      fecha: object
+      precio_unitario: int64
+      costo_unitario: float64
+      margen_bruto: float64
+      porcentaje_margen: float64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: rentabilidad_positiva
+      expression: precio_unitario > costo_unitario
+    - name: calculo_margen_bruto
+      expression: abs(margen_bruto - (precio_unitario - costo_unitario)) <= 0.01
+    - name: calculo_porcentaje_margen
+      expression: abs(porcentaje_margen - (margen_bruto / precio_unitario) * 100)
+        <= 0.01
+    - name: positividad_finanzas
+      expression: (precio_unitario > 0) and (costo_unitario > 0) and (margen_bruto
+        > 0) and (porcentaje_margen > 0)
+  ipc:
+    schema:
+      fecha: object
+      inflacion_mensual_ipc: float64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: inflacion_positiva
+      expression: inflacion_mensual_ipc > 0
+  marketing:
+    schema:
+      fecha: object
+      inversion_total: int64
+      ig_cost: int64
+      fb_cost: int64
+      ig_pct: float64
+      fb_pct: float64
+      campana_activa: int64
+      created_at: object
+      updated_at: object
+    validations:
+      allow_duplicates_rows: false
+      allow_duplicates_dates: false
+      allow_duplicate_columns: false
+      allow_extra_columns: true
+      allow_nulls: true
+      allow_sentinel_values: false
+      check_gaps: true
+      check_gold_rule: true
+      check_freshness: true
+      check_drift: true
+    custom_rules:
+    - name: positividad_mkt
+      expression: all_fields >= 0
+    - name: total_inversion
+      expression: abs(inversion_total - (ig_cost + fb_cost)) <= 2.0
+    - name: campana_activa_requisito
+      expression: campana_activa == 1 => (ig_cost > 0 and fb_cost > 0)
+    - name: percent_ig
+      expression: inversion_total > 0 => abs(ig_pct - (ig_cost / inversion_total)
+        * 100) <= 0.05
+    - name: percent_fb
+      expression: inversion_total > 0 => abs(fb_pct - (fb_cost / inversion_total)
+        * 100) <= 0.05
+  min_wage:
+    schema:
+      fecha: object
+      smlv: int64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: smlv_positivo
+      expression: smlv > 0
+  trm:
+    schema:
+      fecha: object
+      trm: float64
+      created_at: object
+      updated_at: object
+    validations: *id001
+    custom_rules:
+    - name: trm_positiva
+      expression: trm > 0

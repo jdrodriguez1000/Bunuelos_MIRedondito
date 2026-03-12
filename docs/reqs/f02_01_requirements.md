@@ -16,11 +16,12 @@ Garantizar que los datos frescos provenientes de las fuentes maestras en Supabas
 
 ### Qué está INCLUIDO (In Scope)
 *   **[REQ-VAL-01] Validación Selectiva:** El proceso debe ser capaz de filtrar y validar **únicamente** la tabla `inventario_detallado` de acuerdo con la configuración de la etapa.
+*   **[REQ-SELECT-01] Activación por Interruptor (Feature Flags):** Cada fuente de datos definida en la configuración debe poseer un parámetro `enabled` (boolean). Si es `false`, el sistema debe omitir completamente su validación y carga en ese ciclo.
 *   **[REQ-STR-01] Validación Estructural:** Verificación de tipos de datos, nombres de columnas y no-nulidad de los campos críticos para el cálculo de la demanda.
 *   **[REQ-STA-01] Validación Estadística:** Comparación de métricas (media, desviación, mínimos y máximos) contra el `statistic_contract.json` para detectar anomalías o drift masivo.
 *   **[REQ-HAS-01] Integridad de Versión:** Verificación del hash MD5 para asegurar que el contrato local no ha sido alterado manualmente vs. la versión oficial en Supabase.
 *   **[REQ-WAT-01] Control de Watermark:** Gestión de punteros temporales para ejecuciones FULL, INCREMENTAL o detección de NO NEW DATA.
-*   **[REQ-CFG-01] Configuración Maestro:** Gestión centralizada vía `config.yaml` para definir tablas, fases y reglas activas, permitiendo un desacoplamiento total del código.
+*   **[REQ-CFG-01] Configuración Maestro:** Gestión centralizada vía `config.yaml` para definir tablas, fases, reglas activas y estado operativo (`enabled`), permitiendo un desacoplamiento total del código.
 *   **[REQ-REP-01] Reporte de Validación:** Generación de un reporte (`validation_report.json`) con persistencia doble (local y Supabase) indicando éxito o razones exactas del fallo.
 
 ### Qué está EXCLUIDO (Out of Scope) [REQ-OUT-SCOPE]
@@ -37,6 +38,7 @@ Garantizar que los datos frescos provenientes de las fuentes maestras en Supabas
 *   **User Story 1:** Como **System Architect**, quiero que el sistema verifique el contrato antes de cualquier proceso para evitar que cambios inesperados en la DB de producción rompan el código de ML.
 *   **User Story 2:** Como **Data Scientist**, quiero un reporte claro que me diga exactamente qué columna o qué rango estadístico falló.
 *   **User Story 3:** Como **Administrador de la Solución**, quiero que el pipeline cancele la ejecución si detecta que la versión del contrato local no coincide con la versión en la nube (Cloud Sync Validation).
+*   **User Story 4:** Como **Ingeniero de Datos**, quiero poder "apagar" una fuente de datos desde la configuración sin borrar su definición, para facilitar pruebas rápidas o manejar caídas de proveedores de datos.
 
 ---
 

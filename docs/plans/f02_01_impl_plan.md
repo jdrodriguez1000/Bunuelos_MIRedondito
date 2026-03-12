@@ -43,6 +43,7 @@ Para garantizar la integridad del sistema, las tareas deben seguir este orden es
 | **[TASK-VAL-01]** | Implementar `IntegrityChecker` (MD5 local vs Cloud). | **[REQ-HAS-01]** | `src/validator.py` |
 | **[TASK-VAL-02]** | Desarrollar `WatermarkManager` (Lógica FULL/INC/SKIP). | **[REQ-WAT-01]** | `src/validator.py` |
 | **[TASK-VAL-03]** | Implementar validación de tipos y esquema (Gate 1). | **[REQ-STR-01]** | `src/validator.py` |
+| **[TASK-VAL-04]** | Lógica de pre-filtrado por flag `enabled`. | **[REQ-SELECT-01]** | `src/validator.py` |
 
 ### [Ciclo 2] Lógica de Negocio y Regras [BC-XX] (Día 1 - PM)
 | ID Tarea | Tarea Técnica | Tag Trazabilidad | Entregable |
@@ -63,6 +64,7 @@ Para garantizar la integridad del sistema, las tareas deben seguir este orden es
 | :--- | :--- | :--- | :--- |
 | **[TASK-QA-01]** | Smoke Test: Ejecución completa modo `LOAD` fase `MVP`. | **[MET-04]** | Output Console |
 | **[TASK-QA-02]** | Test de Aborto: Simular fallo crítico y validar `exit 1`. | **[ARC-14]** | Audit Log |
+| **[TASK-QA-03]** | Test de Feature Flags: Verificar omisión de fuentes desactivadas. | **[REQ-SELECT-01]** | Audit Log |
 
 ---
 
@@ -84,8 +86,9 @@ Para garantizar la integridad del sistema, las tareas deben seguir este orden es
 ---
 ## 7. DEFINICIÓN DE TERMINADO (DoD)
 *   [ ] `main.py` soporta comando `python main.py --phase MVP --mode LOAD`.
-*   [ ] El reporte JSON se genera en `outputs/reports/stage_2_1/`.
+*   [ ] El reporte JSON se genera en `outputs/reports/phase_MVP/`.
 *   [ ] Las marcas de agua (`watermark_end`) se actualizan correctamente tras una validación exitosa.
+*   [ ] El sistema ignora correctamente las fuentes marcadas con `enabled: false`.
 *   [ ] La trazabilidad con el PRD y SPEC es total (validado mediante este documento).
 
 ---

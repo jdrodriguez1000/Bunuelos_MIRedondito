@@ -1,0 +1,16 @@
+{
+    "timestamp": "2026-03-12T19:28:25.048498+00:00",
+    "phase": "MVP",
+    "table": "inventario_detallado",
+    "status": "FAILED",
+    "results": {
+        "security": {
+            "status": "FAILED",
+            "errors": [
+                "SECURITY_BREACH: SECURITY_BREACH: El hash local no coincide con la versión aprobada en Cloud."
+            ]
+        }
+    },
+    "latency_ms": 878,
+    "rows_processed": 0
+}
