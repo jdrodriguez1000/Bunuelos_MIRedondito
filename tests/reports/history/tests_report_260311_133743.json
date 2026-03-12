@@ -2,7 +2,7 @@
   {
     "type": "Unitaria",
     "status": "PASSED",
-    "timestamp": "2026-03-12T14:15:29.134241",
+    "timestamp": "2026-03-11T20:28:31.247624",
     "details": "Resultados de la suite Unitaria",
     "tests": [
       {
@@ -54,10 +54,6 @@
         "status": "PASSED"
       },
       {
-        "name": "[test_validator.py] test_is_table_active",
-        "status": "PASSED"
-      },
-      {
         "name": "[test_validator.py] test_structural_validation_success",
         "status": "PASSED"
       },
@@ -78,7 +74,7 @@
   {
     "type": "Integracion",
     "status": "PASSED",
-    "timestamp": "2026-03-12T14:15:29.134241",
+    "timestamp": "2026-03-11T20:28:31.247624",
     "details": "Resultados de la suite Integracion",
     "tests": [
       {

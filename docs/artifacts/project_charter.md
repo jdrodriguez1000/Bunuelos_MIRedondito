@@ -110,6 +110,9 @@ The development will follow a logical progression to ensure stability and valida
 1.  **[DEL-04] MVP - Endogenous Model:** Contract validation, loading, preprocessing, EDA, Feature Engineering, Training, and Inferences.
 2.  **[DEL-05] Dashboard v1:** Base visualization of forecasts.
 
+> [!NOTE]
+> Esta fase **EXCLUYE** explícitamente el Módulo de Monitoreo y Control Operativo, así como cualquier capacidad de Simulación "What-If" (reservadas para fases posteriores).
+
 ### Phase 3: Robustness - Calendar
 *Aggregation of exogenous calendar variables (holidays, weekends, semi-monthly pay periods).*
 

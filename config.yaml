@@ -1,6 +1,6 @@
 # ##############################################################################
-# PROJECT: Bunuelos_MIRedondito | STAGE: 1.3 - Data Contract Configuration
-# VERSION: 1.3
+# PROJECT: Bunuelos_MIRedondito | STAGE: 2.1 - Data Contract Validation
+# STATUS: [MVP PHASE ACTIVE] 🚀
 # ##############################################################################
 
 # ------------------------------------------------------------------------------
@@ -8,9 +8,10 @@
 # ------------------------------------------------------------------------------
 project:
   name: "Bunuelos_MIRedondito"
-  version_prd: "1.3"
+  version_prd: "2.1"
   system: "Forecaster"
   company: "Bunuelos SAS"
+  active_phase: "MVP"                       # Identificador global de ejecución
 
 # ------------------------------------------------------------------------------
 # 2. INFRAESTRUCTURA Y RUTAS (STORAGE PATHS) [REQ-PER-01] [ARC-11]
@@ -54,13 +55,17 @@ profiling:
     - "frequency"
     - "weight"
 
-# ------------------------------------------------------------------------------
-# 4. CONFIGURACIÓN DE FUENTES Y VALIDACIONES [DAT-01] a [DAT-09]
-# ------------------------------------------------------------------------------
-# Frecuencias soportadas: daily, monthly, annual
+# ==============================================================================
+# 4. DATA SOURCES REPOSITORY [DAT-01 a DAT-09]
+# ==============================================================================
+
 data_sources:
-  - name: "sales"
-    db_table: "ventas"                      # [DAT-01]
+  # ----------------------------------------------------------------------------
+  # >>> MVP SOURCES (Endogenous Variables) - [ENABLED] ✅
+  # ----------------------------------------------------------------------------
+  - name: "inventory"
+    enabled: true                           # FOCO CRÍTICO DEL MVP
+    db_table: "inventario_detallado"         # [DAT-02]
     frequency: "daily"
     validations: &default_validations
       allow_duplicates_rows: false
@@ -74,18 +79,6 @@ data_sources:
       check_freshness: true     # Alineado a la lógica de tiempo
       check_drift: true         # Monitoreo estadístico
     custom_rules:
-      - name: "balance_unidades"
-        expression: "abs(unidades_totales - (unidades_pagas + unidades_bonificadas)) <= 0.01"
-      - name: "regla_promocion"
-        expression: "es_promocion == 1 => unidades_pagas == unidades_bonificadas"
-      - name: "positividad_campos"
-        expression: "all_fields >= 0"
-
-  - name: "inventory"
-    db_table: "inventario_detallado"         # [DAT-02]
-    frequency: "daily"
-    validations: *default_validations
-    custom_rules:
       - name: "demanda_teorica"
         expression: "demanda_teorica_total == ventas_reales_totales + unidades_agotadas"
       - name: "positividad_inventario"
@@ -95,7 +88,24 @@ data_sources:
       - name: "ventas_reales_total_composicion"
         expression: "ventas_reales_totales == ventas_reales_pagas + ventas_reales_bonificadas"
 
+  # ----------------------------------------------------------------------------
+  # >>> FUTURE SOURCES (Exogenous & Others) - [DISABLED] 💤
+  # ----------------------------------------------------------------------------
+  - name: "sales"
+    enabled: false                          # Reservado para integración futura
+    db_table: "ventas"                      # [DAT-01]
+    frequency: "daily"
+    validations: *default_validations
+    custom_rules:
+      - name: "balance_unidades"
+        expression: "abs(unidades_totales - (unidades_pagas + unidades_bonificadas)) <= 0.01"
+      - name: "regla_promocion"
+        expression: "es_promocion == 1 => unidades_pagas == unidades_bonificadas"
+      - name: "positividad_campos"
+        expression: "all_fields >= 0"
+
   - name: "weather"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "clima_diario"                # [DAT-03]
     frequency: "daily"
     validations: 
@@ -115,6 +125,7 @@ data_sources:
         expression: "(temperatura_media >= 0) and (precipitacion_mm >= 0) and (probabilidad_lluvia >= 0)"
 
   - name: "unemployment"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "desempleo_mensual"           # [DAT-04]
     frequency: "monthly"
     validations: *default_validations
@@ -123,6 +134,7 @@ data_sources:
         expression: "tasa_desempleo > 0"
 
   - name: "finance"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "finanzas_pyme"               # [DAT-05]
     frequency: "daily"
     validations: *default_validations
@@ -137,6 +149,7 @@ data_sources:
         expression: "(precio_unitario > 0) and (costo_unitario > 0) and (margen_bruto > 0) and (porcentaje_margen > 0)"
 
   - name: "ipc"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "ipc_mensual"                 # [DAT-06]
     frequency: "monthly"
     validations: *default_validations
@@ -145,6 +158,7 @@ data_sources:
         expression: "inflacion_mensual_ipc > 0"
 
   - name: "marketing"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "marketing_digital"           # [DAT-07]
     frequency: "daily"
     validations:
@@ -164,6 +178,7 @@ data_sources:
         expression: "inversion_total > 0 => abs(fb_pct - (fb_cost / inversion_total) * 100) <= 0.05"
 
   - name: "min_wage"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "salario_minimo_anual"         # [DAT-08]
     frequency: "annual"
     validations: *default_validations
@@ -172,6 +187,7 @@ data_sources:
         expression: "smlv > 0"
 
   - name: "trm"
+    enabled: false                          # Foco Futuro - No MVP
     db_table: "trm_diaria"                  # [DAT-09]
     frequency: "daily"
     validations: *default_validations
@@ -205,3 +221,26 @@ thresholds:
   sentinel_values:
     numeric: [-99, -999, -9999, 999, 9999, -1]
     categorical: ["NULL", "NA", "N/A", "nan", "UNDEFINED", "none", "ERR"]
+
+# ==============================================================================
+# 🚀 7. EXECUTION ENGINE: MVP STAGE (ACTIVE PHASE)
+# ==============================================================================
+# Configuración aislada para la fase MVP - Endogenous Variables
+validation_mvp:
+  # Orquestación de fuentes activas para el MVP
+  target_sources:
+    - table: "inventario_detallado"
+      time_column: "fecha"     # Columna temporal para lógica de Watermarks [REQ-WAT-01]
+      # Severidades personalizadas por tabla (Opción A)
+      severities:
+        structural: "FAILED"   # Esquema y Tipado (Bloqueo Total)
+        continuity: "FAILED"   # Regla de Oro X-1 y Frescura
+        quality: "WARNING"     # Nulos, Gaps, Duplicados
+        business: "WARNING"    # Reglas de Negocio (BC-01 a BC-04)
+        security: "FAILED"     # Hash MD5 Integrity Check
+
+  # Rutas de Trabajo y Persistencia (Compartidas para la fase MVP)
+  operational_paths:
+    local_report: "outputs/reports/phase_MVP/validation_report.json"
+    cloud_audit: "sys_validation_contract"
+    cloud_gatekeeper: "sys_pipeline_execution"

@@ -32,7 +32,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
 
 ---
 
-## 🏗️ FASE 01: Kickoff and Implementation | (IN PROGRESS)
+## 🏗️ FASE 01: Kickoff and Implementation | (COMPLETED)
 
 ### F01-01: Infrastructure and Documentation (COMPLETED)
 *   **Descripción:** Configuración del entorno maestro, protocolos de agente y estructura física del proyecto.
@@ -49,7 +49,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
     *   Especificación: [[SPEC-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/specs/f01_02_spec.md)
     *   Plan de Imp.: [[IMPL-F01-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f01_02_impl_plan.md)
 
-### F01-03: Data Contract Creation (CURRENT)
+### F01-03: Data Contract Creation (COMPLETED)
 *   **Descripción:** Definición y validación de esquemas técnicos.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F01-03]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f01_03_requirements.md)
@@ -58,9 +58,21 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
 
 ---
 
-## 🏗️ FASE 02: Minimum Viable Product (MVP) - Endogenous Variables | (PENDING)
-### F02-01: Proceso Core
-*   **Descripción:** Construcción del pipeline modular de pronóstico.
+## 🏗️ FASE 02: Minimum Viable Product (MVP) - Endogenous Variables | (IN PROGRESS)
+
+### F02-01: Data Contract Validation (CURRENT)
+*   **Descripción:** Implementación del Guardrail de Calidad y sistema de activación selectiva de fuentes para blindar el pipeline.
+*   **Documentación:**
+    *   Requerimientos: [[REQ-F02-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f02_01_requirements.md)
+    *   Especificación: [[SPEC-F02-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/specs/f02_01_spec.md)
+    *   Plan de Imp.: [[IMPL-F02-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f02_01_impl_plan.md)
+
+### F02-02: Data Loading (PENDING)
+*   **Descripción:** Ingesta distribuida y segura de las fuentes maestras de datos desde Supabase.
+*   **Documentación:**
+    *   Requerimientos: [[REQ-F02-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f02_02_requirements.md)
+    *   Especificación: [[SPEC-F02-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/specs/f02_02_spec.md)
+    *   Plan de Imp.: [[IMPL-F02-02]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/plans/f02_02_impl_plan.md)
 
 ---
 

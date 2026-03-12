@@ -9,8 +9,8 @@ This document outlines the execution roadmap for the demand forecasting system o
 
 | Phase | Description | Status | Start Date | End Date |
 | :--- | :--- | :--- | :--- | :--- |
-| **01** | **Kickoff and Implementation** | **IN PROGRESS** | 2026-03-11 | TBD |
-| **02** | **Minimum Viable Product (MVP) - Endogenous Variables** | Pending | - | - |
+| **01** | **Kickoff and Implementation** | **COMPLETED** | 2026-03-11 | 2026-03-11 |
+| **02** | **Minimum Viable Product (MVP) - Endogenous Variables** | **IN PROGRESS** | 2026-03-11 | TBD |
 | **03** | **Robustness - Calendar** | Pending | - | - |
 | **04** | **Controllable Variables - Commercial & Marketing** | Pending | - | - |
 | **05** | **External Non-Controllable Variables - Macro & Weather** | Pending | - | - |
@@ -19,7 +19,7 @@ This document outlines the execution roadmap for the demand forecasting system o
 
 ---
 
-## 🏗️ Detailed Phase 01: Kickoff and Implementation
+## 🏗️ Detailed Phase 01: Kickoff and Implementation (COMPLETED)
 **Objective:** Establish the project's technical skeleton, environment setup, and secure the data bridge with Supabase.
 
 ### Stage 1.1: Infrastructure and Documentation (COMPLETED)
@@ -74,10 +74,91 @@ This document outlines the execution roadmap for the demand forecasting system o
 
 ---
 
-## 🎯 Milestones
-1. **M1 (Infra Ready):** All directories and base docs established.
-2. **M2 (Connection Established):** Successful data pull from Supabase with logs.
-3. **M3 (Data Contract Signed):** Schemas validated and frozen for MVP.
+## 🏗️ Detailed Phase 02: Minimum Viable Product (MVP) - Endogenous Variables (IN PROGRESS)
+**Objective:** Build a robust forecasting baseline using internal historical sales data and technical demand variables.
+
+> [!IMPORTANT]
+> **Exclusiones de esta Fase:**
+> 1. **Monitoreo y Control Automático:** No se implementarán triggers de re-entrenamiento ni alertas de drift operativos en esta fase.
+> 2. **Simulaciones "What-If":** No se incluirá el motor de escenarios (Precios, Promociones, Clima) en el MVP.
+
+### Stage 2.1: Data Contract Validation (IN PROGRESS)
+- [x] Refinamiento de Documentación SDD a Nivel Senior: [PRD](../reqs/f02_01_requirements.md), [SPEC](../specs/f02_01_spec.md), [IMPL Plan](../plans/f02_01_impl_plan.md).
+- [ ] **[EP-06] Guardrail de Calidad y Semaforización**:
+    - [x] **Configuración e Infraestructura Cloud**:
+        - [x] Ajuste de `config.yaml` para segmentación por fases (MVP/Futuross) [REQ-CFG-01].
+        - [x] Creación física de la tabla `sys_validation_contract` en Supabase [REQ-OUT-02].
+        - [x] Creación física de la tabla `sys_pipeline_execution` en Supabase [REQ-OUT-03].
+    - [x] **Núcleo de Validación y Seguridad**:
+        - [x] Implementación de `IntegrityChecker` (MD5 local vs Cloud) [REQ-HAS-01].
+        - [x] Desarrollo del `WatermarkManager` (Lógica FULL/INC/SKIP) [REQ-WAT-01].
+        - [x] Componente `ContractValidator` con reglas vectorizadas [REQ-VAL-01].
+    - [ ] **Control Selectivo de Fuentes (Feature Flags)**:
+        - [ ] Definición de parámetro `enabled` en `config.yaml` [REQ-SELECT-01].
+        - [ ] Lógica de omisión de carga/validación en `validator.py` y `main.py`.
+    - [ ] **Orquestación final**:
+        - [x] Creación de `main.py` como entrypoint CLI (--phase, --mode) [REQ-ARC-15].
+        - [ ] Reportabilidad de fuentes activas vs inactivas en logs.
+    - [ ] **QA y Estabilización**:
+        - [x] Validación de "Regla de Oro" (Fijación de puntero en X-1).
+        - [x] Prueba de estrés de validación con volúmenes de datos reales (3355 registros).
+        - [ ] Test unitario para verificar que el pipeline ignora fuentes con `enabled: false`.
+        - [x] Generación de Reporte de Validación detallado (prueba a prueba) con Doble Persistencia (Fijo + History).
+
+### Stage 2.2: Data Loading (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_02_requirements.md), [SPEC](../specs/f02_02_spec.md), [IMPL Plan](../plans/f02_02_impl_plan.md).
+- [ ] **[EP-07] Ingesta Distribuida de Fuentes**:
+    - [ ] Implementación de `DataLoader` modular para las fuentes [DAT-01] a [DAT-06].
+    - [ ] Gestión de memoria y paginación para lectura segura de Supabase.
+
+### Stage 2.3: Data Preprocessing (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_03_requirements.md), [SPEC](../specs/f02_03_spec.md), [IMPL Plan](../plans/f02_03_impl_plan.md).
+- [ ] **[EP-08] Armonización y Cálculo de Target**:
+    - [ ] Cálculo de `Demanda_Teorica_Total` [REG-06] (Ventas + Agotados).
+    - [ ] Sincronización cronológica para asegurar serie continua sin ceros estructurales (Venta diaria garantizada).
+
+### Stage 2.4: Exploratory Data Analysis (EDA) (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_04_requirements.md), [SPEC](../specs/f02_04_spec.md), [IMPL Plan](../plans/f02_04_impl_plan.md).
+- [ ] **[EP-09] Análisis de Señal y Ruido**:
+    - [ ] Análisis de Autocorrelación (ACF/PACF) de la demanda.
+    - [ ] Identificación de estacionalidad semanal y outliers históricos.
+
+### Stage 2.5: Feature Engineering (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_05_requirements.md), [SPEC](../specs/f02_05_spec.md), [IMPL Plan](../plans/f02_05_impl_plan.md).
+- [ ] **[EP-10] Creación de Características Endógenas**:
+    - [ ] Definición de Lags y Ventanas Móviles (Rolling Statistics).
+    - [ ] Variables de tiempo básicas (Día_Semana, Fin_Semana).
+
+### Stage 2.6: Training and Modeling (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_06_requirements.md), [SPEC](../specs/f02_06_spec.md), [IMPL Plan](../plans/f02_06_impl_plan.md).
+- [ ] **[EP-11] Entrenamiento y Experimentación**:
+    - [ ] Implementación de `ForecasterAutoregDirect` (Benchmarking `Ridge` vs `Trees`).
+    - [ ] **Experimento A**: Entrenamiento con peso uniforme de la serie histórica.
+    - [ ] **Experimento B**: Entrenamiento con decaimiento de peso temporal (Prioridad a data reciente).
+    - [ ] Evaluación mediante Backtesting y métricas comparativas (MAPE vs Naive Benchmark).
+
+### Stage 2.7: Invisibility & Inference (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_07_requirements.md), [SPEC](../specs/f02_07_spec.md), [IMPL Plan](../plans/f02_07_impl_plan.md).
+- [ ] **[EP-12] Pronóstico Horizonte 95**:
+    - [ ] Generación de predicciones a futuro respetando la Regla X-1.
+    - [ ] Post-procesamiento: Recorte de incertidumbre y agregación por meses.
+
+### Stage 2.8: Dashboard Layout & Construction (PENDING)
+- [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_08_requirements.md), [SPEC](../specs/f02_08_spec.md), [IMPL Plan](../plans/f02_08_impl_plan.md).
+- [ ] **[EP-13] Visualización y Storytelling**:
+    - [ ] Construcción del Dashboard v1 con visualización de Pronóstico.
+    - [ ] Implementación de Módulo de Conversión: `Demanda (Unidades) -> Pedido Sugerido (Libras de Kit)`.
+    - [ ] Generación de Reporte Ejecutivo de Fase (Wow Factor).
+    - [ ] Documentación de Lecciones Aprendidas del MVP.
+
+---
+
+## 🎯 Hitos (Milestones)
+1. **M1 (Infraestructura Lista):** Todos los directorios y documentos base establecidos.
+2. **M2 (Conexión Establecida):** Extracción de datos exitosa desde Supabase con logs verificados.
+3. **M3 (Contrato de Datos Firmado):** Esquemas validados y congelados para el inicio del MVP.
+4. **M4 (Baseline Endógeno):** Primer modelo de pronóstico operativo con métricas de error iniciales.
+5. **M5 (MVP Entregado):** Dashboard v1 funcional y reporte ejecutivo de cierre de fase.
 
 ---
 *Last Edited: 2026-03-11*

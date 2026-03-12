@@ -57,11 +57,22 @@ if (-not (Test-Path .gitignore)) {
 3.2. **Acción MCP**: Si no existe el remoto, usar `mcp_remote-github_create_repository` con el nombre `Bunuelos_MIRedondito`.
 3.3. Vincular local con remoto: `git remote add origin https://github.com/[PROPIETARIO]/Bunuelos_MIRedondito.git`.
 
-### 4. Ciclo de Versionamiento Dual (Git + DVC)
+### 4. Ciclo de Versionamiento Dual (Git + DVC) con Validación
 // turbo
-Sincroniza datos en el almacenamiento remoto y código en GitHub.
+Valida la calidad localmente y, si es satisfactoria, sincroniza datos y código.
 
 ```powershell
+# 4.0 Validación de Calidad Obligatoria
+Write-Host "Iniciando validación de calidad antes de sincronizar..." -ForegroundColor Cyan
+/test_pipeline   # Ejecuta el flujo de pruebas existente
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Las pruebas FALLARON. La sincronización se ha abortado para proteger el repositorio."
+    exit $LASTEXITCODE
+}
+
+Write-Host "Pruebas exitosas. Procediendo con la sincronización..." -ForegroundColor Green
+
 # 4.1 Sincronización de Datos (DVC - Si aplica)
 # dvc add data/  
 # dvc push       

@@ -1,0 +1,293 @@
+{
+    "timestamp": "2026-03-12T19:31:23.190613+00:00",
+    "phase": "MVP",
+    "table": "inventario_detallado",
+    "status": "SUCCESS",
+    "results": {
+        "structural": {
+            "status": "SUCCESS",
+            "errors": [],
+            "tests": [
+                {
+                    "name": "Schema check: fecha",
+                    "target": "fecha",
+                    "expected": "object",
+                    "status": "SUCCESS",
+                    "actual": "object"
+                },
+                {
+                    "name": "Schema check: kit_inicial_bodega",
+                    "target": "kit_inicial_bodega",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: lbs_iniciales_bodega",
+                    "target": "lbs_iniciales_bodega",
+                    "expected": "float64",
+                    "status": "SUCCESS",
+                    "actual": "float64"
+                },
+                {
+                    "name": "Schema check: kit_recibido",
+                    "target": "kit_recibido",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: lbs_recibidas",
+                    "target": "lbs_recibidas",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: lbs_totales_disponibles",
+                    "target": "lbs_totales_disponibles",
+                    "expected": "float64",
+                    "status": "SUCCESS",
+                    "actual": "float64"
+                },
+                {
+                    "name": "Schema check: demanda_teorica_total",
+                    "target": "demanda_teorica_total",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: bunuelos_preparados",
+                    "target": "bunuelos_preparados",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: ventas_reales_totales",
+                    "target": "ventas_reales_totales",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: ventas_reales_pagas",
+                    "target": "ventas_reales_pagas",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: ventas_reales_bonificadas",
+                    "target": "ventas_reales_bonificadas",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: bunuelos_desperdiciados",
+                    "target": "bunuelos_desperdiciados",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: unidades_agotadas",
+                    "target": "unidades_agotadas",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: kit_final_bodega",
+                    "target": "kit_final_bodega",
+                    "expected": "int64",
+                    "status": "SUCCESS",
+                    "actual": "int64"
+                },
+                {
+                    "name": "Schema check: lbs_finales_bodega",
+                    "target": "lbs_finales_bodega",
+                    "expected": "float64",
+                    "status": "SUCCESS",
+                    "actual": "float64"
+                },
+                {
+                    "name": "Schema check: created_at",
+                    "target": "created_at",
+                    "expected": "object",
+                    "status": "SUCCESS",
+                    "actual": "object"
+                },
+                {
+                    "name": "Schema check: updated_at",
+                    "target": "updated_at",
+                    "expected": "object",
+                    "status": "SUCCESS",
+                    "actual": "object"
+                }
+            ]
+        },
+        "continuity": {
+            "status": "SUCCESS",
+            "errors": [],
+            "tests": [
+                {
+                    "name": "Data Leakage check",
+                    "target": "fecha",
+                    "status": "SUCCESS",
+                    "max_date": "2026-03-11 00:00:00"
+                },
+                {
+                    "name": "Stale Data check",
+                    "target": "fecha",
+                    "status": "SUCCESS",
+                    "max_date": "2026-03-11 00:00:00"
+                }
+            ]
+        },
+        "quality": {
+            "status": "SUCCESS",
+            "errors": [],
+            "tests": [
+                {
+                    "name": "Null check: fecha",
+                    "target": "fecha",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: kit_inicial_bodega",
+                    "target": "kit_inicial_bodega",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: lbs_iniciales_bodega",
+                    "target": "lbs_iniciales_bodega",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: kit_recibido",
+                    "target": "kit_recibido",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: lbs_recibidas",
+                    "target": "lbs_recibidas",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: lbs_totales_disponibles",
+                    "target": "lbs_totales_disponibles",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: demanda_teorica_total",
+                    "target": "demanda_teorica_total",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: bunuelos_preparados",
+                    "target": "bunuelos_preparados",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: ventas_reales_totales",
+                    "target": "ventas_reales_totales",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: ventas_reales_pagas",
+                    "target": "ventas_reales_pagas",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: ventas_reales_bonificadas",
+                    "target": "ventas_reales_bonificadas",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: bunuelos_desperdiciados",
+                    "target": "bunuelos_desperdiciados",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: unidades_agotadas",
+                    "target": "unidades_agotadas",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: kit_final_bodega",
+                    "target": "kit_final_bodega",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: lbs_finales_bodega",
+                    "target": "lbs_finales_bodega",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: created_at",
+                    "target": "created_at",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Null check: updated_at",
+                    "target": "updated_at",
+                    "null_count": 0,
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "Duplicate rows check",
+                    "target": "dataframe",
+                    "dup_count": 0,
+                    "status": "SUCCESS"
+                }
+            ]
+        },
+        "business": {
+            "status": "SUCCESS",
+            "errors": [],
+            "tests": [
+                {
+                    "name": "demanda_teorica",
+                    "expression": "demanda_teorica_total == ventas_reales_totales + unidades_agotadas",
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "positividad_inventario",
+                    "expression": "all_fields >= 0",
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "lbs_disponibles",
+                    "expression": "abs(lbs_totales_disponibles - (lbs_iniciales_bodega + lbs_recibidas)) <= 0.01",
+                    "status": "SUCCESS"
+                },
+                {
+                    "name": "ventas_reales_total_composicion",
+                    "expression": "ventas_reales_totales == ventas_reales_pagas + ventas_reales_bonificadas",
+                    "status": "SUCCESS"
+                }
+            ]
+        }
+    },
+    "latency_ms": 1615,
+    "rows_processed": 3357
+}

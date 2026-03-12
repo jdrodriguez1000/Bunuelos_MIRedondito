@@ -113,23 +113,26 @@ class DataContractBuilder:
         with open(stats_path, "w", encoding="utf-8") as f:
             json.dump(stats_final, f, indent=4)
         
-        # Calculamos el hash del archivo de estadísticas (será nuestro DVC Hash proxy)
-        dvc_hash = self._calculate_md5(stats_path)
+        # Calculamos el hash del archivo de estadísticas (para trazabilidad interna)
+        stats_hash = self._calculate_md5(stats_path)
         
-        # 2. Local: YAML Contract (Incluye el hash de las estadísticas para vínculo total)
+        # 2. Local: YAML Contract (Primero lo escribimos para poder calcular su hash real)
         contract_path = os.path.join(paths["contracts_dir"], artifacts.get("data_contract_file", "data_contract.yaml"))
         os.makedirs(os.path.dirname(contract_path), exist_ok=True)
         contract_final = {
             "version": "1.3",
             "contract_id": contract_id,
-            "dvc_hash": dvc_hash,
+            "stats_hash_ref": stats_hash, # Referencia al hash de estadísticas
             "generated_at": gen_time,
             "sources": contracts
         }
         with open(contract_path, "w", encoding="utf-8") as f:
             yaml.dump(contract_final, f, sort_keys=False)
 
-        # 3. Cloud: Supabase Persistencia Atómica [REQ-INV-01]
+        # 3. El DVC HASH oficial es el hash del archivo de contrato YAML [REQ-HAS-01]
+        dvc_hash = self._calculate_md5(contract_path)
+
+        # 4. Cloud: Supabase Persistencia Atómica [REQ-INV-01]
         cloud_config = self.config_loader.config.get("storage", {}).get("cloud", {})
         table_cloud = cloud_config.get("table_name", "sys_data_contract")
         is_active_flag = cloud_config.get("is_active_flag", "is_active")
@@ -240,12 +243,31 @@ class DataContractBuilder:
     def _save_report(self, report: Dict):
         paths = self.config_loader.get_storage_paths()
         artifacts = self.config_loader.config.get("storage", {}).get("artifacts", {})
-        report_path = os.path.join(paths["reports_dir"], artifacts.get("report_file", "builder_report.json"))
+        reports_dir = paths["reports_dir"]
+        report_file = artifacts.get("report_file", "builder_report.json")
+        report_path = os.path.join(reports_dir, report_file)
         
+        # 1. Latest Report
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=4)
-        logger.info(f"📄 Reporte de ejecución guardado en: {report_path}")
+        
+        # 2. History Report (Doble Persistencia)
+        try:
+            history_dir = os.path.join(reports_dir, "history")
+            os.makedirs(history_dir, exist_ok=True)
+            
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            report_name = report_file.replace(".json", "")
+            history_path = os.path.join(history_dir, f"{report_name}_{timestamp}.json")
+            
+            with open(history_path, "w", encoding="utf-8") as f:
+                json.dump(report, f, indent=4)
+            
+            logger.info(f"✅ Doble persistencia completada: {report_path} y {history_path}")
+        except Exception as e:
+            logger.warning(f"⚠️ Falló la persistencia histórica: {e}")
+            logger.info(f"📄 Reporte de ejecución guardado en: {report_path}")
 
 
 if __name__ == "__main__":
