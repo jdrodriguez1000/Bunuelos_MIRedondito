@@ -1,5 +1,10 @@
 # LOG DE LECCIONES APRENDIDAS - MI REDONDITO
 
+## [2026-03-12] Mejora en Robustez de Pruebas y Validaciones
+- **Technical**: Se identificó que la tabla `sys_pipeline_execution` tiene una restricción de check para `validation_type`. Es crítico usar valores permitidos (`FULL`, `INCREMENTAL`, etc.) incluso en pruebas de integración.
+- **Technical**: La lógica de matcheo de tipos en `ContractValidator` era demasiado restrictiva para tipos `datetime`. Se expandió para reconocer subcadenas como `date` en los dtypes de Pandas.
+- **Process**: La importancia de la doble persistencia de reportes de pruebas (latest + history) permite trazabilidad de la salud del proyecto.
+
 | Fecha | Fase | Categoría | Hecho | Causa Raíz | Acción / Aprendizaje |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 2026-03-11 | 1.1 | Process | Definición de gobernanza en una sola sesión. | El usuario proporcionó prompts y estándares de proyectos pasados. | La reutilización de "Blueprints" de proyectos previos acelera el setup inicial en un 80%. |
@@ -10,3 +15,6 @@
 | 2026-03-11 | 1.3 | TECHNICAL | Trazabilidad total mediante Hash MD5 y Contract ID. | Necesidad de auditar la integridad de archivos frente a la persistencia en nube (Supabase). | La generación de un MD5 local permite comparar la huella digital del dato persistido, garantizando que el contrato YAML siempre concuerda con el perfil estadístico JSON. |
 | 2026-03-11 | 1.3 | TECHNICAL | Persistencia atómica de contratos (Invalidar -> Insertar). | Riesgo de tener múltiples contratos "activos" o registros huérfanos en Supabase. | El patrón de actualización (`update is_active=False`) seguido de la inserción con el mismo `contract_id` asegura un único estado de verdad. |
 | 2026-03-11 | 1.3 | PROCESS | Alineación de tests unitarios con implementación real. | Los tests iniciales fallaron por diferencia en las claves del diccionario de estadísticas (e.g., `unique_count` vs `unique_values`). | Siempre se debe realizar una "Inspección de Esquema" del objeto real antes de escribir las aserciones finales de los tests. |
+| 2026-03-12 | 2.1 | TECHNICAL | Violación de constraint `validation_type` en Supabase. | Uso de strings arbitrarios en pruebas de integración que no coincidían con el check de la DB. | Sincronizar siempre los valores de prueba con los dominios permitidos en la base de datos (e.g., `FULL`, `INCREMENTAL`). |
+| 2026-03-12 | 2.1 | TECHNICAL | Rigidez en validación estructural de tipos `datetime`. | El matcheo de tipos no reconocía subcadenas `date` de Pandas, causando fallos falsos positivos. | Implementar detecciones de tipos basadas en subcadenas para mayor flexibilidad frente a versiones de librerías. |
+| 2026-03-12 | 2.1 | PROCESS | Importancia de la Doble Persistencia en QA. | Riesgo de perder trazabilidad histórica de la salud del código al sobrescribir reportes. | Mantener siempre un archivo `latest` para consumo rápido y una carpeta `history/` para auditoría temporal. |

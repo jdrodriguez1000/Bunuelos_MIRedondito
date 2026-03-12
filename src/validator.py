@@ -220,6 +220,7 @@ class ContractValidator:
                 # Simplificación de tipos para validación robusta
                 match = ("int" in expected_dtype and "int" in actual_dtype) or \
                         ("float" in expected_dtype and "float" in actual_dtype) or \
+                        ("date" in expected_dtype and "date" in actual_dtype) or \
                         ("object" in expected_dtype and actual_dtype == "object")
                 
                 if not match:

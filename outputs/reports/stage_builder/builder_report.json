@@ -1,18 +1,10 @@
 {
-    "execution_id": "cc58b724-ca53-425f-99c3-e7c5d23cdbd5",
-    "dvc_hash_audit": "13eef3a58c83c513a0d99dc0f374f49b",
-    "timestamp": "2026-03-11T20:10:04.862675",
-    "latency_ms": 12506.216999999999,
+    "execution_id": "53225a89-6474-4dbd-a65e-275b46a6f7f2",
+    "dvc_hash_audit": "11ffb574faeecebb940a1892efda1e0c",
+    "timestamp": "2026-03-11T20:28:28.379669",
+    "latency_ms": 33.482,
     "sources_processed": [
-        "sales",
-        "inventory",
-        "weather",
-        "unemployment",
-        "finance",
-        "ipc",
-        "marketing",
-        "min_wage",
-        "trm"
+        "test_source"
     ],
     "status": "SUCCESS"
 }
