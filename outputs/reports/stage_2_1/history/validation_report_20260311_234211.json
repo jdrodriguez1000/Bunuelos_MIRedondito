@@ -1,0 +1,21 @@
+{
+    "timestamp": "2026-03-11T18:42:11.353200",
+    "status": "SUCCESS",
+    "table": "inventario_detallado",
+    "results": {
+        "structural": {
+            "status": "SUCCESS",
+            "errors": []
+        },
+        "quality": {
+            "status": "SUCCESS",
+            "errors": []
+        },
+        "business": {
+            "status": "SUCCESS",
+            "errors": []
+        }
+    },
+    "latency_ms": 588,
+    "rows_processed": 3355
+}

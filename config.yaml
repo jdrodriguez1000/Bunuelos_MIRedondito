@@ -205,3 +205,25 @@ thresholds:
   sentinel_values:
     numeric: [-99, -999, -9999, 999, 9999, -1]
     categorical: ["NULL", "NA", "N/A", "nan", "UNDEFINED", "none", "ERR"]
+
+# ------------------------------------------------------------------------------
+# 7. STAGE 2.1: DATA CONTRACT VALIDATION (MVP INDEPENDENT SETUP)
+# ------------------------------------------------------------------------------
+# Configuración aislada para la fase MVP - Endogenous Variables
+validation_mvp:
+  target_table: "inventario_detallado"
+  time_column: "fecha"     # Columna temporal para lógica de Watermarks [REQ-WAT-01]
+  
+  # Gestión de Severidades por Grupo de Validación [REQ-VAL-01]
+  severities:
+    structural: "FAILED"   # Esquema y Tipado (Bloqueo Total)
+    continuity: "FAILED"   # Regla de Oro X-1 y Frescura
+    quality: "WARNING"     # Nulos, Gaps, Duplicados
+    business: "WARNING"    # Reglas de Negocio (BC-01 a BC-04)
+    security: "FAILED"     # Hash MD5 Integrity Check
+
+  # Rutas de Trabajo y Persistencia (Scoped to MVP Stage 2.1)
+  operational_paths:
+    local_report: "outputs/reports/stage_2_1/validation_report.json"
+    cloud_audit: "sys_validation_contract"
+    cloud_gatekeeper: "sys_pipeline_execution"

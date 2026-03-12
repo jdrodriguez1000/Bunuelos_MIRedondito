@@ -113,23 +113,26 @@ class DataContractBuilder:
         with open(stats_path, "w", encoding="utf-8") as f:
             json.dump(stats_final, f, indent=4)
         
-        # Calculamos el hash del archivo de estadísticas (será nuestro DVC Hash proxy)
-        dvc_hash = self._calculate_md5(stats_path)
+        # Calculamos el hash del archivo de estadísticas (para trazabilidad interna)
+        stats_hash = self._calculate_md5(stats_path)
         
-        # 2. Local: YAML Contract (Incluye el hash de las estadísticas para vínculo total)
+        # 2. Local: YAML Contract (Primero lo escribimos para poder calcular su hash real)
         contract_path = os.path.join(paths["contracts_dir"], artifacts.get("data_contract_file", "data_contract.yaml"))
         os.makedirs(os.path.dirname(contract_path), exist_ok=True)
         contract_final = {
             "version": "1.3",
             "contract_id": contract_id,
-            "dvc_hash": dvc_hash,
+            "stats_hash_ref": stats_hash, # Referencia al hash de estadísticas
             "generated_at": gen_time,
             "sources": contracts
         }
         with open(contract_path, "w", encoding="utf-8") as f:
             yaml.dump(contract_final, f, sort_keys=False)
 
-        # 3. Cloud: Supabase Persistencia Atómica [REQ-INV-01]
+        # 3. El DVC HASH oficial es el hash del archivo de contrato YAML [REQ-HAS-01]
+        dvc_hash = self._calculate_md5(contract_path)
+
+        # 4. Cloud: Supabase Persistencia Atómica [REQ-INV-01]
         cloud_config = self.config_loader.config.get("storage", {}).get("cloud", {})
         table_cloud = cloud_config.get("table_name", "sys_data_contract")
         is_active_flag = cloud_config.get("is_active_flag", "is_active")

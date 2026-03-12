@@ -82,23 +82,24 @@ This document outlines the execution roadmap for the demand forecasting system o
 > 1. **Monitoreo y Control Automático:** No se implementarán triggers de re-entrenamiento ni alertas de drift operativos en esta fase.
 > 2. **Simulaciones "What-If":** No se incluirá el motor de escenarios (Precios, Promociones, Clima) en el MVP.
 
-### Stage 2.1: Data Contract Validation (IN PROGRESS)
+### Stage 2.1: Data Contract Validation (COMPLETED)
 - [x] Refinamiento de Documentación SDD a Nivel Senior: [PRD](../reqs/f02_01_requirements.md), [SPEC](../specs/f02_01_spec.md), [IMPL Plan](../plans/f02_01_impl_plan.md).
-- [ ] **[EP-06] Guardrail de Calidad y Semaforización**:
+- [x] **[EP-06] Guardrail de Calidad y Semaforización**:
     - [ ] **Configuración e Infraestructura Cloud**:
-        - [ ] Ajuste de `config.yaml` para segmentación por fases (MVP/Futuross) [REQ-CFG-01].
-        - [ ] Creación física de la tabla `sys_validation_contract` en Supabase [REQ-OUT-02].
-        - [ ] Creación física de la tabla `sys_pipeline_execution` en Supabase [REQ-OUT-03].
-    - [ ] **Núcleo de Validación y Seguridad**:
-        - [ ] Implementación de `IntegrityChecker` (MD5 local vs Cloud) [REQ-HAS-01].
-        - [ ] Desarrollo del `WatermarkManager` (Lógica FULL/INC/SKIP) [REQ-WAT-01].
-        - [ ] Componente `ContractValidator` con reglas vectorizadas [REQ-VAL-01].
-    - [ ] **Orquestación final**:
-        - [ ] Creación de `main.py` como entrypoint CLI (--phase, --mode) [REQ-ARC-15].
-    - [ ] **QA y Estabilización**:
-        - [ ] Validación de "Regla de Oro" (Fijación de puntero en X-1).
-        - [ ] Prueba de estrés de validación con volúmenes de datos reales.
-        - [ ] Simulación de aborto por incoherencia de contrato (Smoke Test).
+        - [x] Ajuste de `config.yaml` para segmentación por fases (MVP/Futuross) [REQ-CFG-01].
+        - [x] Creación física de la tabla `sys_validation_contract` en Supabase [REQ-OUT-02].
+        - [x] Creación física de la tabla `sys_pipeline_execution` en Supabase [REQ-OUT-03].
+    - [x] **Núcleo de Validación y Seguridad**:
+        - [x] Implementación de `IntegrityChecker` (MD5 local vs Cloud) [REQ-HAS-01].
+        - [x] Desarrollo del `WatermarkManager` (Lógica FULL/INC/SKIP) [REQ-WAT-01].
+        - [x] Componente `ContractValidator` con reglas vectorizadas [REQ-VAL-01].
+    - [x] **Orquestación final**:
+        - [x] Creación de `main.py` como entrypoint CLI (--phase, --mode) [REQ-ARC-15].
+    - [x] **QA y Estabilización**:
+        - [x] Validación de "Regla de Oro" (Fijación de puntero en X-1).
+        - [x] Prueba de estrés de validación con volúmenes de datos reales (3355 registros).
+        - [x] Simulación de aborto por incoherencia de contrato (Integrity Check).
+        - [x] Generación de Reporte de Validación detallado (prueba a prueba) con Doble Persistencia (Fijo + History).
 
 ### Stage 2.2: Data Loading (PENDING)
 - [ ] Refinamiento de Documentación SDD: [PRD](../reqs/f02_02_requirements.md), [SPEC](../specs/f02_02_spec.md), [IMPL Plan](../plans/f02_02_impl_plan.md).
