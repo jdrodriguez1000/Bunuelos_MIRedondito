@@ -243,12 +243,31 @@ class DataContractBuilder:
     def _save_report(self, report: Dict):
         paths = self.config_loader.get_storage_paths()
         artifacts = self.config_loader.config.get("storage", {}).get("artifacts", {})
-        report_path = os.path.join(paths["reports_dir"], artifacts.get("report_file", "builder_report.json"))
+        reports_dir = paths["reports_dir"]
+        report_file = artifacts.get("report_file", "builder_report.json")
+        report_path = os.path.join(reports_dir, report_file)
         
+        # 1. Latest Report
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=4)
-        logger.info(f"📄 Reporte de ejecución guardado en: {report_path}")
+        
+        # 2. History Report (Doble Persistencia)
+        try:
+            history_dir = os.path.join(reports_dir, "history")
+            os.makedirs(history_dir, exist_ok=True)
+            
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            report_name = report_file.replace(".json", "")
+            history_path = os.path.join(history_dir, f"{report_name}_{timestamp}.json")
+            
+            with open(history_path, "w", encoding="utf-8") as f:
+                json.dump(report, f, indent=4)
+            
+            logger.info(f"✅ Doble persistencia completada: {report_path} y {history_path}")
+        except Exception as e:
+            logger.warning(f"⚠️ Falló la persistencia histórica: {e}")
+            logger.info(f"📄 Reporte de ejecución guardado en: {report_path}")
 
 
 if __name__ == "__main__":

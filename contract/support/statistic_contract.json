@@ -1,6 +1,6 @@
 {
-    "contract_id": "89b8fcab-505e-4167-bbd3-e7dfc56f3e5c",
-    "generated_at": "2026-03-12T14:42:57.057456",
+    "contract_id": "015ab72d-e885-49e8-ae7f-6baeef22b41b",
+    "generated_at": "2026-03-12T14:57:29.946276",
     "sources": {
         "inventory": {
             "table_name": "inventario_detallado",
@@ -3583,7 +3583,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:50.323834"
+            "timestamp": "2026-03-12T14:57:23.106064"
         },
         "sales": {
             "table_name": "ventas",
@@ -7049,7 +7049,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:51.496056"
+            "timestamp": "2026-03-12T14:57:24.266185"
         },
         "weather": {
             "table_name": "clima_diario",
@@ -10519,7 +10519,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:52.727899"
+            "timestamp": "2026-03-12T14:57:25.498205"
         },
         "unemployment": {
             "table_name": "desempleo_mensual",
@@ -10669,7 +10669,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:53.016207"
+            "timestamp": "2026-03-12T14:57:25.788853"
         },
         "finance": {
             "table_name": "finanzas_pyme",
@@ -14122,7 +14122,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:54.260907"
+            "timestamp": "2026-03-12T14:57:26.978174"
         },
         "ipc": {
             "table_name": "ipc_mensual",
@@ -14272,7 +14272,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:54.487689"
+            "timestamp": "2026-03-12T14:57:27.221466"
         },
         "marketing": {
             "table_name": "marketing_digital",
@@ -17751,7 +17751,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:55.701469"
+            "timestamp": "2026-03-12T14:57:28.564523"
         },
         "min_wage": {
             "table_name": "salario_minimo_anual",
@@ -17800,7 +17800,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:55.981290"
+            "timestamp": "2026-03-12T14:57:28.856509"
         },
         "trm": {
             "table_name": "trm_diaria",
@@ -21214,7 +21214,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-12T14:42:57.057456"
+            "timestamp": "2026-03-12T14:57:29.946276"
         }
     }
 }
