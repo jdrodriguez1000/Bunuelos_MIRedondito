@@ -29,6 +29,9 @@ jobs:
       - name: Run Pipeline de Calidad
         env:
           PYTHONPATH: .
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           mkdir -p tests/reports/history
           pytest tests/ --json-report --json-report-file=tests/reports/tests_report_raw.json
