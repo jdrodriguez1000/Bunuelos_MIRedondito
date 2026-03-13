@@ -85,11 +85,11 @@ Para garantizar la integridad del sistema, las tareas deben seguir este orden es
 
 ---
 ## 7. DEFINICIÓN DE TERMINADO (DoD)
-*   [ ] `main.py` soporta comando `python main.py --phase MVP --mode LOAD`.
-*   [ ] El reporte JSON se genera en `outputs/reports/phase_MVP/`.
-*   [ ] Las marcas de agua (`watermark_end`) se actualizan correctamente tras una validación exitosa.
-*   [ ] El sistema ignora correctamente las fuentes marcadas con `enabled: false`.
-*   [ ] La trazabilidad con el PRD y SPEC es total (validado mediante este documento).
+*   [x] `main.py` soporta comando `python main.py --phase MVP --mode LOAD`.
+*   [x] El reporte JSON se genera en `outputs/reports/phase_MVP/`.
+*   [x] Las marcas de agua (`watermark_end`) se actualizan correctamente tras una validación exitosa.
+*   [x] El sistema ignora correctamente las fuentes marcadas con `enabled: false`.
+*   [x] La trazabilidad con el PRD y SPEC es total (validado mediante este documento).
 
 ---
 > [!IMPORTANT]

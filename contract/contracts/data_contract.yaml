@@ -1,7 +1,7 @@
 version: '1.3'
-contract_id: d0b4d195-8299-4034-b87d-a76af9da9d32
-stats_hash_ref: 0030b533d8f946376fce8502768b24fb
-generated_at: '2026-03-13T09:12:56.094316'
+contract_id: fe2e402e-0dcb-4b8e-bd36-631bf219aaa9
+stats_hash_ref: 7f6bae36650b34121430dfb28550496b
+generated_at: '2026-03-13T09:32:58.878883'
 sources:
   test_source:
     schema:
