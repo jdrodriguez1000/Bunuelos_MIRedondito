@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/jdrodriguez1000/Bunuelos_MIRedondito/compare/bunuelos-miredondito-core-v0.2.0...bunuelos-miredondito-core-v0.2.1) (2026-03-13)
+
+
+### Documentation
+
+* finalize phase 2.1 and automated governance setup ([efb3279](https://github.com/jdrodriguez1000/Bunuelos_MIRedondito/commit/efb32792b13140af64fa9c034b2a085e36821015))
+* finalize phase 2.1 with automated release governance ([bdf70e9](https://github.com/jdrodriguez1000/Bunuelos_MIRedondito/commit/bdf70e932db92cf77541d3a98acf1c535561ef24))
+
 ## [0.2.0](https://github.com/jdrodriguez1000/Bunuelos_MIRedondito/compare/bunuelos-miredondito-core-v0.1.0...bunuelos-miredondito-core-v0.2.0) (2026-03-13)
 
 
