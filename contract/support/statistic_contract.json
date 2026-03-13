@@ -1,6 +1,6 @@
 {
-    "contract_id": "d0b4d195-8299-4034-b87d-a76af9da9d32",
-    "generated_at": "2026-03-13T09:12:56.094316",
+    "contract_id": "fe2e402e-0dcb-4b8e-bd36-631bf219aaa9",
+    "generated_at": "2026-03-13T09:32:58.878883",
     "sources": {
         "test_source": {
             "table_name": "dummy_table",
@@ -28,7 +28,7 @@
                     }
                 }
             },
-            "timestamp": "2026-03-13T09:12:56.094316"
+            "timestamp": "2026-03-13T09:32:58.878883"
         }
     }
 }

@@ -60,7 +60,7 @@ Todo agente debe respetar estas reglas antes de iniciar cualquier fase:
 
 ## 🏗️ FASE 02: Minimum Viable Product (MVP) - Endogenous Variables | (IN PROGRESS)
 
-### F02-01: Data Contract Validation (CURRENT)
+### F02-01: Data Contract Validation (COMPLETED)
 *   **Descripción:** Implementación del Guardrail de Calidad y sistema de activación selectiva de fuentes para blindar el pipeline.
 *   **Documentación:**
     *   Requerimientos: [[REQ-F02-01]](file:///c:/Users/USUARIO/Documents/Forecaster/Bunuelos_MIRedondito/docs/reqs/f02_01_requirements.md)

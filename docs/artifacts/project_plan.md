@@ -82,9 +82,9 @@ This document outlines the execution roadmap for the demand forecasting system o
 > 1. **Monitoreo y Control Automático:** No se implementarán triggers de re-entrenamiento ni alertas de drift operativos en esta fase.
 > 2. **Simulaciones "What-If":** No se incluirá el motor de escenarios (Precios, Promociones, Clima) en el MVP.
 
-### Stage 2.1: Data Contract Validation (IN PROGRESS)
+### Stage 2.1: Data Contract Validation (COMPLETED)
 - [x] Refinamiento de Documentación SDD a Nivel Senior: [PRD](../reqs/f02_01_requirements.md), [SPEC](../specs/f02_01_spec.md), [IMPL Plan](../plans/f02_01_impl_plan.md).
-- [ ] **[EP-06] Guardrail de Calidad y Semaforización**:
+- [x] **[EP-06] Guardrail de Calidad y Semaforización**:
     - [x] **Configuración e Infraestructura Cloud**:
         - [x] Ajuste de `config.yaml` para segmentación por fases (MVP/Futuross) [REQ-CFG-01].
         - [x] Creación física de la tabla `sys_validation_contract` en Supabase [REQ-OUT-02].
@@ -93,16 +93,16 @@ This document outlines the execution roadmap for the demand forecasting system o
         - [x] Implementación de `IntegrityChecker` (MD5 local vs Cloud) [REQ-HAS-01].
         - [x] Desarrollo del `WatermarkManager` (Lógica FULL/INC/SKIP) [REQ-WAT-01].
         - [x] Componente `ContractValidator` con reglas vectorizadas [REQ-VAL-01].
-    - [ ] **Control Selectivo de Fuentes (Feature Flags)**:
-        - [ ] Definición de parámetro `enabled` en `config.yaml` [REQ-SELECT-01].
-        - [ ] Lógica de omisión de carga/validación en `validator.py` y `main.py`.
-    - [ ] **Orquestación final**:
+    - [x] **Control Selectivo de Fuentes (Feature Flags)**:
+        - [x] Definición de parámetro `enabled` en `config.yaml` [REQ-SELECT-01].
+        - [x] Lógica de omisión de carga/validación en `validator.py` y `main.py`.
+    - [x] **Orquestación final**:
         - [x] Creación de `main.py` como entrypoint CLI (--phase, --mode) [REQ-ARC-15].
-        - [ ] Reportabilidad de fuentes activas vs inactivas en logs.
-    - [ ] **QA y Estabilización**:
+        - [x] Reportabilidad de fuentes activas vs inactivas en logs.
+    - [x] **QA y Estabilización**:
         - [x] Validación de "Regla de Oro" (Fijación de puntero en X-1).
         - [x] Prueba de estrés de validación con volúmenes de datos reales (3355 registros).
-        - [ ] Test unitario para verificar que el pipeline ignora fuentes con `enabled: false`.
+        - [x] Test unitario para verificar que el pipeline ignora fuentes con `enabled: false`.
         - [x] Generación de Reporte de Validación detallado (prueba a prueba) con Doble Persistencia (Fijo + History).
 
 ### Stage 2.2: Data Loading (PENDING)
@@ -161,4 +161,4 @@ This document outlines the execution roadmap for the demand forecasting system o
 5. **M5 (MVP Entregado):** Dashboard v1 funcional y reporte ejecutivo de cierre de fase.
 
 ---
-*Last Edited: 2026-03-11*
+*Last Edited: 2026-03-13*
